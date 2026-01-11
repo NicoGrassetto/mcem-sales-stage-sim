@@ -9,16 +9,46 @@ interface StageCardProps {
   content?: string
   color: string
   roles?: string[]
+  unit?: string
 }
 
-export function StageCard({ title, icon, status, content, color, roles }: StageCardProps) {
+export function StageCard({ title, icon, status, content, color, roles, unit }: StageCardProps) {
   const [expanded, setExpanded] = useState(false)
 
   const roleIcons: Record<string, string> = {
     'AE': '💼',
     'SSP': '🎯',
     'ATS': '🔧',
-    'CS': '🎨'
+    'CSA': '🏗️',
+    'CSAM': '🤝',
+    'SE': '⚙️',
+    'CE': '📊',
+    'SAE': '🔗',
+    'Partner': '🤲'
+  }
+
+  const roleFullNames: Record<string, string> = {
+    'AE': 'Account Executive',
+    'SSP': 'Solution Sales Professional',
+    'ATS': 'Account Technology Strategist',
+    'CSA': 'Cloud Solution Architect',
+    'CSAM': 'Customer Success Account Manager',
+    'SE': 'Solution Engineer',
+    'CE': 'Commercial Executive',
+    'SAE': 'Services Account Executive',
+    'Partner': 'Partner'
+  }
+
+  const unitColors: Record<string, string> = {
+    'ATU': 'bg-blue-500/20 border-blue-500/40 text-blue-300',
+    'STU': 'bg-purple-500/20 border-purple-500/40 text-purple-300',
+    'CSU': 'bg-green-500/20 border-green-500/40 text-green-300'
+  }
+
+  const unitFullNames: Record<string, string> = {
+    'ATU': 'Account Team Unit',
+    'STU': 'Solution Team Unit',
+    'CSU': 'Customer Success Unit'
   }
 
   if (status === 'locked') {
@@ -57,16 +87,29 @@ export function StageCard({ title, icon, status, content, color, roles }: StageC
               {status === 'completed' ? '✓ Complete' : '⚡ Processing'}
             </p>
             {roles && roles.length > 0 && (
-              <div className="flex gap-1 mt-2">
-                {roles.map((role) => (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {unit && (
+                  <span 
+                    className={`text-xs space-font px-2 py-0.5 border ${unitColors[unit] || 'bg-muted border-border'}`}
+                    title={unitFullNames[unit] || unit}
+                  >
+                    {unit}
+                  </span>
+                )}
+                {roles.slice(0, 4).map((role) => (
                   <span 
                     key={role} 
                     className="text-xs space-font bg-muted px-2 py-0.5 border border-border"
-                    title={role}
+                    title={roleFullNames[role] || role}
                   >
                     {roleIcons[role] || '👤'} {role}
                   </span>
                 ))}
+                {roles.length > 4 && (
+                  <span className="text-xs space-font bg-muted px-2 py-0.5 border border-border">
+                    +{roles.length - 4}
+                  </span>
+                )}
               </div>
             )}
           </div>

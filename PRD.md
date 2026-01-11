@@ -1,6 +1,8 @@
 # Planning Guide
 
-A gamified sales engagement analyzer that guides users through Microsoft's MCEM (Map, Compete, Expand, Modernize) sales model by processing opportunity text through AI-powered stage analysis with a nostalgic pixel art aesthetic.
+A gamified sales engagement analyzer that guides users through Microsoft's MCEM (Microsoft Customer Engagement Methodology) by processing opportunity text through AI-powered stage analysis with a nostalgic pixel art aesthetic.
+
+MCEM is Microsoft's unified framework for engaging customers across the entire lifecycle, connecting all customer-facing roles into one team. It comprises five stages: **Listen & Consult, Inspire & Design, Empower & Achieve, Realize Value, and Manage & Optimize**.
 
 **Experience Qualities**:
 1. **Playful** - The pixel art aesthetic and gamification elements make professional sales methodology feel like an engaging adventure rather than corporate drudgery
@@ -20,31 +22,31 @@ A gamified sales engagement analyzer that guides users through Microsoft's MCEM 
 - **Success criteria**: Text persists in textarea, minimum character threshold enforced (100+ chars), smooth input experience
 
 ### MCEM Stage Simulation
-- **Functionality**: LLM processes input text and generates stage-specific insights for Map, Compete, Expand, and Modernize phases, with role-specific guidance for Account Executive, SSP, ATS, and Customer Success roles
-- **Purpose**: Transforms raw opportunity text into actionable sales intelligence aligned with Microsoft methodology, including which team members should be involved
+- **Functionality**: LLM processes input text and generates stage-specific insights for the 5 MCEM stages (Listen & Consult, Inspire & Design, Empower & Achieve, Realize Value, Manage & Optimize), with role-specific guidance for AE, ATS, SSP, CSA, CSAM, and partner roles
+- **Purpose**: Transforms raw opportunity text into actionable sales intelligence aligned with Microsoft methodology, including which team members should be involved based on stage accountability
 - **Trigger**: User clicks "Analyze" button after entering engagement text
-- **Progression**: Analyze clicked → Loading state with pixel art animation → LLM processes text through each stage with role guidance → Results appear sequentially with unlock animations → Each stage card reveals insights and shows relevant roles (AE, SSP, ATS, CS)
-- **Success criteria**: All 4 stages generate relevant, contextual responses; content is sales-focused and actionable; stages appear in order; role indicators display correctly
+- **Progression**: Analyze clicked → Loading state with pixel art animation → LLM processes text through each stage with role guidance → Results appear sequentially with unlock animations → Each stage card reveals insights and shows relevant roles and accountable units (ATU, STU, CSU)
+- **Success criteria**: All 5 stages generate relevant, contextual responses; content is sales-focused and actionable; stages appear in order; role and unit indicators display correctly
 
 ### Pixel Art Visual Progression
 - **Functionality**: Gamified UI showing locked/unlocked stages with pixel sprites, progress bars, and retro visual effects
 - **Purpose**: Makes the analytical process feel rewarding and maintains engagement through visual feedback
 - **Trigger**: Analysis begins and progresses through stages
-- **Progression**: All stages locked → Map unlocks with animation → Compete unlocks → Expand unlocks → Modernize unlocks → Victory animation/completion state
+- **Progression**: All stages locked → Listen & Consult unlocks with animation → Inspire & Design unlocks → Empower & Achieve unlocks → Realize Value unlocks → Manage & Optimize unlocks → Victory animation/completion state
 - **Success criteria**: Smooth stage transitions, satisfying unlock animations, clear visual hierarchy of progress
 
 ### Results Display & Export
-- **Functionality**: Each MCEM stage displays as an expandable card with key findings, recommendations, and action items; shows which Microsoft sales roles (AE, SSP, ATS, CS) are involved; option to copy or download results
+- **Functionality**: Each MCEM stage displays as an expandable card with key findings, recommendations, and action items; shows which Microsoft sales roles are lead/supporting and which unit is accountable (ATU, STU, CSU); option to copy or download results
 - **Purpose**: Provides actionable intelligence in scannable format for immediate use in sales planning with clear role assignments
 - **Trigger**: Analysis completes for each stage
 - **Progression**: Stage unlocks → Card animates in with role indicators → User clicks to expand details → Reads insights → Optionally copies content → Repeats for next stage
-- **Success criteria**: Content is readable, organized hierarchically, expandable/collapsible, copyable; role indicators are visible and clear
+- **Success criteria**: Content is readable, organized hierarchically, expandable/collapsible, copyable; role and unit indicators are visible and clear
 
 ### MCEM & Roles Education
-- **Functionality**: Information dialog accessible from header that provides comprehensive details about the 4 MCEM stages (Map, Compete, Expand, Modernize) and Microsoft sales team roles (Account Executive, SSP, Solutions Engineer/ATS, Customer Success, Partners)
-- **Purpose**: Educates users on the methodology and sales structure to better understand the analysis results
+- **Functionality**: Information dialog accessible from header that provides comprehensive details about the 5 MCEM stages (Listen & Consult, Inspire & Design, Empower & Achieve, Realize Value, Manage & Optimize), Microsoft sales team roles (AE, ATS, SSP, SE, CSA, CSAM, CE, SAE, Partners), and accountability matrix
+- **Purpose**: Educates users on the methodology, sales structure, and stage accountability to better understand the analysis results
 - **Trigger**: User clicks "Learn MCEM" button in header
-- **Progression**: Button clicked → Dialog opens → User tabs between "MCEM Stages" and "Sales Roles" → Reads detailed explanations with key activities → Closes dialog
+- **Progression**: Button clicked → Dialog opens → User tabs between "MCEM Stages", "Sales Roles", and "Accountability Matrix" → Reads detailed explanations with key activities → Closes dialog
 - **Success criteria**: Dialog displays comprehensive information, tabs work smoothly, content is well-formatted and educational, scrollable for long content
 
 ## Edge Case Handling

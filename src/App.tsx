@@ -5,6 +5,7 @@ import { StageCard } from '@/components/StageCard'
 import { ProgressBar } from '@/components/ProgressBar'
 import { PixelLoader } from '@/components/PixelLoader'
 import { MCEMInfoDialog } from '@/components/MCEMInfoDialog'
+import { MCEMStateDiagram } from '@/components/MCEMStateDiagram'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 
@@ -16,6 +17,7 @@ interface MCEMStage {
   content?: string
   color: string
   roles: string[]
+  unit: string
 }
 
 interface SampleOpportunity {
@@ -24,11 +26,14 @@ interface SampleOpportunity {
   text: string
 }
 
+// MCEM = Microsoft Customer Engagement Methodology
+// 5 stages that map to the customer journey
 const STAGE_COLORS = {
-  map: 'oklch(0.65 0.20 150)',
-  compete: 'oklch(0.70 0.25 45)',
-  expand: 'oklch(0.45 0.15 260)',
-  modernize: 'oklch(0.75 0.18 85)'
+  'listen-consult': 'oklch(0.65 0.20 200)',    // Teal
+  'inspire-design': 'oklch(0.70 0.25 45)',     // Orange
+  'empower-achieve': 'oklch(0.45 0.15 260)',   // Purple
+  'realize-value': 'oklch(0.65 0.20 150)',     // Green
+  'manage-optimize': 'oklch(0.75 0.18 85)'     // Yellow
 }
 
 function App() {
@@ -37,18 +42,29 @@ function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState(-1)
   const [sampleOpportunities, setSampleOpportunities] = useState<SampleOpportunity[]>([])
   const [showSamples, setShowSamples] = useState(false)
+  const [activeJourneyStage, setActiveJourneyStage] = useState<string | undefined>(undefined)
+  const [completedJourneyStages, setCompletedJourneyStages] = useState<string[]>([])
+  
+  // MCEM = Microsoft Customer Engagement Methodology - 5 stages mapping to customer journey
   const [stages, setStages] = useState<MCEMStage[]>([
-    { id: 'map', title: 'MAP', icon: '🔍', status: 'locked', color: STAGE_COLORS.map, roles: ['AE', 'ATS', 'CS'] },
-    { id: 'compete', title: 'COMPETE', icon: '⚔️', status: 'locked', color: STAGE_COLORS.compete, roles: ['SSP', 'ATS', 'AE'] },
-    { id: 'expand', title: 'EXPAND', icon: '📈', status: 'locked', color: STAGE_COLORS.expand, roles: ['AE', 'SSP', 'CS'] },
-    { id: 'modernize', title: 'MODERNIZE', icon: '⚙️', status: 'locked', color: STAGE_COLORS.modernize, roles: ['ATS', 'SSP', 'CS'] }
+    { id: 'listen-consult', title: 'LISTEN & CONSULT', icon: '👂', status: 'locked', color: STAGE_COLORS['listen-consult'], roles: ['AE', 'ATS', 'SSP', 'CSAM', 'SAE'], unit: 'ATU' },
+    { id: 'inspire-design', title: 'INSPIRE & DESIGN', icon: '💡', status: 'locked', color: STAGE_COLORS['inspire-design'], roles: ['SSP', 'SE', 'AE', 'ATS', 'CSAM', 'SAE'], unit: 'STU' },
+    { id: 'empower-achieve', title: 'EMPOWER & ACHIEVE', icon: '🚀', status: 'locked', color: STAGE_COLORS['empower-achieve'], roles: ['SSP', 'SE', 'AE', 'CE', 'ATS', 'CSAM', 'SAE'], unit: 'STU' },
+    { id: 'realize-value', title: 'REALIZE VALUE', icon: '✅', status: 'locked', color: STAGE_COLORS['realize-value'], roles: ['CSAM', 'CSA', 'SAE', 'Partner'], unit: 'CSU' },
+    { id: 'manage-optimize', title: 'MANAGE & OPTIMIZE', icon: '🔄', status: 'locked', color: STAGE_COLORS['manage-optimize'], roles: ['CSAM', 'CSA', 'SAE', 'Partner'], unit: 'CSU' }
   ])
 
   useEffect(() => {
     const loadSamples = async () => {
-      const samples = await window.spark.kv.get<SampleOpportunity[]>('sample-opportunities')
-      if (samples) {
-        setSampleOpportunities(samples)
+      try {
+        if (window.spark?.kv?.get) {
+          const samples = await window.spark.kv.get<SampleOpportunity[]>('sample-opportunities')
+          if (samples) {
+            setSampleOpportunities(samples)
+          }
+        }
+      } catch (error) {
+        console.warn('Spark KV not available, skipping sample load:', error)
       }
     }
     loadSamples()
@@ -60,7 +76,15 @@ function App() {
   const canSubmit = charCount >= MIN_CHARS && charCount <= MAX_CHARS && !isAnalyzing
 
   const analyzeWithLLM = async (stageName: string, stageDescription: string, roleGuidance: string): Promise<string> => {
-    const prompt = window.spark.llmPrompt`You are an expert Microsoft sales analyst specializing in the MCEM (Map, Compete, Expand, Modernize) sales methodology.
+    // Check if Spark LLM is available
+    if (!window.spark?.llm || !window.spark?.llmPrompt) {
+      // Return mock response when running outside Spark environment
+      return `[Running in local mode - Spark LLM not available]\n\nThis is a placeholder analysis for the ${stageName} stage.\n\nIn the full Spark environment, this would provide AI-powered insights analyzing:\n- ${stageDescription}\n\nRole guidance considered: ${roleGuidance}\n\nTo get real analysis, run this app in the GitHub Spark environment.`
+    }
+
+    const prompt = window.spark.llmPrompt`You are an expert Microsoft sales analyst specializing in MCEM (Microsoft Customer Engagement Methodology).
+
+MCEM is Microsoft's unified framework for engaging customers across the entire lifecycle, connecting all customer-facing roles (sales, customer success, industry solutions, and partners) into one team to deliver consistent, customer-centric engagements.
 
 Stage: ${stageName}
 Stage Description: ${stageDescription}
@@ -71,7 +95,7 @@ ${roleGuidance}
 Opportunity/Engagement Text:
 ${inputText}
 
-Analyze this opportunity specifically for the ${stageName} stage. Provide actionable insights, key considerations, and recommendations in 3-5 concise paragraphs. Be specific and reference details from the engagement text. Consider which Microsoft sales team members (Account Executive, SSP, Solutions Engineer/ATS, Customer Success) should be involved and what they should focus on.
+Analyze this opportunity specifically for the ${stageName} stage. Provide actionable insights, key considerations, and recommendations in 3-5 concise paragraphs. Be specific and reference details from the engagement text. Consider which Microsoft sales team members should be involved based on the role guidance and what they should focus on to successfully progress through this stage.
 
 Format your response as clear, professional paragraphs without bullet points or headers.`
 
@@ -84,31 +108,161 @@ Format your response as clear, professional paragraphs without bullet points or 
 
     setIsAnalyzing(true)
     setCurrentStageIndex(-1)
+    setCompletedJourneyStages([])
 
+    // MCEM = Microsoft Customer Engagement Methodology - 5 stages
     const stageDefinitions = [
       { 
-        id: 'map', 
-        name: 'MAP',
-        description: 'Map the customer landscape - understand stakeholders, decision makers, business challenges, current state, and organizational dynamics',
-        roleGuidance: 'Account Executive leads relationship mapping and stakeholder identification. Solutions Engineer (ATS) conducts technical discovery. Customer Success identifies business outcomes and success criteria.'
+        id: 'listen-consult', 
+        name: 'LISTEN & CONSULT',
+        description: 'Understand customer needs and desired outcomes. Customer believes Microsoft could solve the problem. Map the customer landscape - stakeholders, decision makers, business challenges, current state, and organizational dynamics.',
+        roleGuidance: `Lead Roles: AE/ATS (ATU - Account Team Unit)
+Supporting: SSP, CSAM, SAE, Partner
+
+ATU (AE/ATS) Responsibilities:
+- Engaging CxOs/Stakeholders across Rooms of the House to identify Customer Priorities
+- Creating and mapping Stage 1 Opptys to Customer Priorities and Stakeholders
+- Qualifying and transitioning Opptys to Stage 2 in collaboration with STU
+
+Role Activities:
+- AE: Develop account plan, meet customer & qualify, engages partner
+- ATS: Develop Customer Secure AI Assessment, CxO TDM relationship, MACC Consumption Plan
+- IA: Create and qualify industry use case pipeline in partnership with AE for CSA and SDC/ISV
+- SSP: Support qualification, identify Solution Play
+- SAE: Meet customer and qualify services opportunity (Consulting + Unified), contributes to AP
+- Partner: Discover Co-sell opportunities, submit inbound referral
+
+Stage 1 Opportunity Qualification Criteria (ATU + STU collaboration):
+- Customer Outcomes identified
+- Customer Decision maker/s (business and technical) identified
+- Major technical blockers identified with resolution plan
+- Approval Process determined and customer ready for Stage 2
+- Budget availability validated
+- Timing confirmed
+
+Stage 1 Milestone Criteria:
+- Create initial Uncommitted Milestone when creating Stage 1 Consumption Opportunity in MSX
+- Milestone Est. Due date and Est. Value (not $0) is required
+- Focus on materiality of scope: Workloads, high-level sizing
+- Reflect major timing/phasing constraints for commitment, deployment
+
+Exit Criteria: Qualified pipeline
+
+REQUIRED HANDOFF: ATU-to-STU Opportunity Handoff and Milestone transition discussion
+- ATU & SSP to agree on Milestone value and Due Date before Oppty is moved to Stage 2`
       },
       { 
-        id: 'compete', 
-        name: 'COMPETE',
-        description: 'Competitive positioning - identify competitors, differentiation points, competitive advantages, risks, and win strategies',
-        roleGuidance: 'Specialist Sales Professional (SSP) provides workload-specific competitive intelligence. Solutions Engineer (ATS) addresses technical differentiation. Account Executive develops overall win strategy.'
+        id: 'inspire-design', 
+        name: 'INSPIRE & DESIGN',
+        description: 'Co-create solutions aligned to business priorities. Customer has interest in proposed solution. Execute workshops, assessments, and finalize value proposition.',
+        roleGuidance: `Lead Roles: SSP/SE (STU - Solution Team Unit)
+Supporting: AE, ATS, SAE, PSS/PDM
+
+STU (Specialist) Responsibilities:
+- Receiving and understanding qualified opportunity and supporting ATU in additional qualification if needed
+- Within 7 business days after transition discussion, taking ownership from ATU of Uncommitted milestones in MSX
+- Working with Customer to move Uncommitted milestones to Committed
+
+Role Activities:
+- AE: Orchestrate pursuit team
+- ATS: Drive tech efforts, ensure solution fits customer tech landscape and Customer Secure AI Assessment
+- SSP: Execute Solution Play, engage Partner and/or Services
+- SE: Technical assessment, initial architecture, and proof
+- Hub SE: Engagement journey mapped to Secure AI Plan
+- CSAM: Create Customer Success Plan (CSP)
+- SAE: Orchestrate Services teams with support from Custom Consulting Sales teams or Unified GBB
+- PSS/PDM: Accept outbound opportunities, collaborate on planning, leverage incentives
+
+Exit Criteria: Customer aligned to solution and business case`
       },
       { 
-        id: 'expand', 
-        name: 'EXPAND',
-        description: 'Expansion opportunities - identify upsell potential, cross-sell opportunities, additional use cases, and growth pathways',
-        roleGuidance: 'Account Executive identifies account expansion opportunities. SSPs discover workload-specific upsell possibilities. Customer Success identifies adoption opportunities and additional use cases.'
+        id: 'empower-achieve', 
+        name: 'EMPOWER & ACHIEVE',
+        description: 'Prove business case and technology. Secure technical and business decisions, negotiate terms, and process contract.',
+        roleGuidance: `Lead Roles: SSP/SE (STU - Solution Team Unit)
+Supporting: AE, ATS, CE, SAE, PSS/PDM
+
+Customer Outcome: Prove business case and technology
+Exit Criteria: Customer Agreement in Place
+
+Key Activities:
+- Technical and Business Proof
+- Deal Shaping
+- Negotiate Terms
+- Process Contract
+
+Role Activities:
+- AE: Facilitate negotiation and deal closure
+- CE: Drive deal strategy, negotiation and deal execution
+- ATS: Secure tech agreements, ensures consumption plan covers at least 1st year of MACC value
+- SSP: Secure business decision
+- SE: Secure technical decision
+- Hub SE: Secure technical decision
+- CSAM: Prepare for milestone transition to delivery, validate and confirm CSP
+- SAE: Drives negotiation and services deal closure
+- PSS/PDM: Deliver PoC, business value, accelerate & secure agreement
+
+STU End-of-Stage Responsibilities:
+- Commit the Consumption Opportunity once customer has committed to proposed workloads, timeline, and revenue is confirmed
+- Move Opportunity (Consumption Intent) to Stage 4 "Realize Value" in MSX
+- Transition Consumption Opportunity to CSU
+
+REQUIRED: STU-to-CSU Handoff
+- SSP should transition ownership of Stage 4 Opportunity to CSU within 7 days
+- STU & CSU (CSAM/CSA) should meet and validate Consumption Opportunity details before ownership transfer`
       },
       { 
-        id: 'modernize', 
-        name: 'MODERNIZE',
-        description: 'Modernization strategy - cloud migration paths, digital transformation opportunities, technical modernization, and innovation potential',
-        roleGuidance: 'Solutions Engineer (ATS) designs cloud architecture and migration strategy. SSPs position modern workload capabilities. Customer Success creates transformation vision and change management plan.'
+        id: 'realize-value', 
+        name: 'REALIZE VALUE',
+        description: 'Ensure successful adoption and measurable outcomes. Customer satisfied with implementation.',
+        roleGuidance: `Lead Roles: CSAM/CSA (CSU - Customer Success Unit)
+Supporting: SAE, Services, Partner
+
+Customer Outcome: Customer satisfied with implementation
+Exit Criteria: Outcomes Met and Baseline Metrics in Place
+
+Key Activities:
+- Technical Implementation
+- Change Management and Training
+- Business Value Metric Baseline
+
+CSU (CSA/CSAM) Responsibilities:
+- Work with STU (SSP and SE) to confirm customer agreement details and any closing billed opportunity comments
+- Take ownership of Consumption Opportunity in MSX from SSP when it moves to Stage 4
+- Drive Consumption Opportunity to closure, updating status in MSX up to Est. Date
+
+Role Activities:
+- CSA: Drive delivery and consumption/usage for committed milestones
+- CSAM: Coordinate CSP delivery, lead committed milestones to completion (Unified). Engages CSA as needed
+- SAE: Stays engaged with Consulting CPM or Unified CSDR activities during project delivery
+- Partner: Drive delivery of partner delivered milestones
+
+Resources for Handoff:
+- For Unified Accounts: Check aka.ms/whoistheCSAM to identify the right CSAM owner
+- For Non-Unified Accounts: Transition to the CSA manager accountable for your Area/OU`
+      },
+      { 
+        id: 'manage-optimize', 
+        name: 'MANAGE & OPTIMIZE',
+        description: 'Continuously improve and expand value. Customer expectations are met with solution health achieved.',
+        roleGuidance: `Lead Roles: CSAM/CSA (CSU - Customer Success Unit)
+Supporting: SAE, Services, Partner, AE, ATS
+
+Customer Outcome: Customer expectations are met
+Exit Criteria: Opportunity Done and Next Steps Identified
+
+Key Activities:
+- Solution Health Achieved
+- Business Value Metrics Achieved
+- Rightsizing/Legacy Removal/Backlog Identification
+
+Role Activities:
+- CSA: Drive solution health, identify expansion opportunities
+- CSAM: Achieve customer health outcomes, accelerate customer value and identify expansion opportunities
+- SAE: Identifies services expansion opportunities
+- Partner: Optimize solution architecture, identify expansion opportunities
+
+Cycle Back: After this stage, opportunities may cycle back to Listen & Consult for expansion opportunities, creating a continuous engagement loop.`
       }
     ]
 
@@ -116,6 +270,9 @@ Format your response as clear, professional paragraphs without bullet points or 
       for (let i = 0; i < stageDefinitions.length; i++) {
         const stageDef = stageDefinitions[i]
         setCurrentStageIndex(i)
+        
+        // Update journey diagram - set active stage
+        setActiveJourneyStage(stageDef.id)
 
         setStages(prev => prev.map((stage, idx) => 
           idx === i ? { ...stage, status: 'unlocked' } : stage
@@ -126,9 +283,14 @@ Format your response as clear, professional paragraphs without bullet points or 
         setStages(prev => prev.map((stage, idx) => 
           idx === i ? { ...stage, status: 'completed', content } : stage
         ))
+        
+        // Mark journey stage as completed
+        setCompletedJourneyStages(prev => [...prev, stageDef.id])
 
         await new Promise(resolve => setTimeout(resolve, 500))
       }
+
+      setActiveJourneyStage(undefined)
 
       toast.success('🎮 Quest Complete! All MCEM stages analyzed.')
     } catch (error) {
@@ -143,11 +305,14 @@ Format your response as clear, professional paragraphs without bullet points or 
   const handleReset = () => {
     setInputText('')
     setCurrentStageIndex(-1)
+    setActiveJourneyStage(undefined)
+    setCompletedJourneyStages([])
     setStages([
-      { id: 'map', title: 'MAP', icon: '🔍', status: 'locked', color: STAGE_COLORS.map, roles: ['AE', 'ATS', 'CS'] },
-      { id: 'compete', title: 'COMPETE', icon: '⚔️', status: 'locked', color: STAGE_COLORS.compete, roles: ['SSP', 'ATS', 'AE'] },
-      { id: 'expand', title: 'EXPAND', icon: '📈', status: 'locked', color: STAGE_COLORS.expand, roles: ['AE', 'SSP', 'CS'] },
-      { id: 'modernize', title: 'MODERNIZE', icon: '⚙️', status: 'locked', color: STAGE_COLORS.modernize, roles: ['ATS', 'SSP', 'CS'] }
+      { id: 'listen-consult', title: 'LISTEN & CONSULT', icon: '👂', status: 'locked', color: STAGE_COLORS['listen-consult'], roles: ['AE', 'ATS', 'SSP', 'CSAM', 'SAE'], unit: 'ATU' },
+      { id: 'inspire-design', title: 'INSPIRE & DESIGN', icon: '💡', status: 'locked', color: STAGE_COLORS['inspire-design'], roles: ['SSP', 'SE', 'AE', 'ATS', 'CSAM', 'SAE'], unit: 'STU' },
+      { id: 'empower-achieve', title: 'EMPOWER & ACHIEVE', icon: '🚀', status: 'locked', color: STAGE_COLORS['empower-achieve'], roles: ['SSP', 'SE', 'AE', 'CE', 'ATS', 'CSAM', 'SAE'], unit: 'STU' },
+      { id: 'realize-value', title: 'REALIZE VALUE', icon: '✅', status: 'locked', color: STAGE_COLORS['realize-value'], roles: ['CSAM', 'CSA', 'SAE', 'Partner'], unit: 'CSU' },
+      { id: 'manage-optimize', title: 'MANAGE & OPTIMIZE', icon: '🔄', status: 'locked', color: STAGE_COLORS['manage-optimize'], roles: ['CSAM', 'CSA', 'SAE', 'Partner'], unit: 'CSU' }
     ])
   }
 
@@ -158,7 +323,7 @@ Format your response as clear, professional paragraphs without bullet points or 
     toast.success(`📋 Loaded: ${sample.title}`)
   }
 
-  const progress = stages.filter(s => s.status === 'completed').length * 25
+  const progress = stages.filter(s => s.status === 'completed').length * 20
 
   return (
     <div className="min-h-screen bg-background pixel-bg p-4 md:p-8">
@@ -172,11 +337,22 @@ Format your response as clear, professional paragraphs without bullet points or 
             MCEM QUEST
           </h1>
           <p className="space-font text-sm md:text-base text-foreground/80">
-            Transform your sales opportunity through the four stages of Microsoft's MCEM model
+            Microsoft Customer Engagement Methodology - Journey through the five stages of customer success
           </p>
           <div className="flex justify-center pt-2">
             <MCEMInfoDialog />
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.05 }}
+        >
+          <MCEMStateDiagram 
+            activeStage={activeJourneyStage}
+            completedStages={completedJourneyStages}
+          />
         </motion.div>
 
         <motion.div
@@ -285,6 +461,7 @@ Format your response as clear, professional paragraphs without bullet points or 
                   content={stage.content}
                   color={stage.color}
                   roles={stage.roles}
+                  unit={stage.unit}
                 />
               ))}
             </div>

@@ -35,6 +35,12 @@ export function MCEMInfoDialog() {
             >
               SALES ROLES
             </TabsTrigger>
+            <TabsTrigger 
+              value="matrix" 
+              className="space-font text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              ACCOUNTABILITY MATRIX
+            </TabsTrigger>
           </TabsList>
 
           <ScrollArea className="h-[calc(85vh-140px)]">
@@ -43,30 +49,71 @@ export function MCEMInfoDialog() {
                 <div className="space-y-6">
                   <div>
                     <h3 className="pixel-font text-sm text-secondary mb-3">🎯 WHAT IS MCEM?</h3>
+                    <p className="space-font text-sm leading-relaxed text-foreground/90 mb-3">
+                      <strong>MCEM (Microsoft Customer Engagement Methodology)</strong> is Microsoft's unified framework for engaging customers across the entire lifecycle. It connects all customer-facing roles (sales, customer success, industry solutions, and partners) into one team to deliver consistent, customer-centric engagements that drive business outcomes.
+                    </p>
                     <p className="space-font text-sm leading-relaxed text-foreground/90">
-                      MCEM (Map, Compete, Expand, Modernize) is Microsoft's enterprise sales methodology. It provides a structured framework for understanding customer needs, positioning solutions, and driving digital transformation. Each stage represents a critical phase in the sales engagement lifecycle.
+                      MCEM is central to <strong>MCAPS (Microsoft Customer and Partner Solutions)</strong> motions and is supported by detailed playbooks, orchestration guides, and role accountabilities.
                     </p>
                   </div>
 
                   <div className="border-t-2 border-border pt-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-3xl">🔍</div>
+                      <div className="text-3xl">👂</div>
                       <div className="flex-1">
-                        <h4 className="pixel-font text-xs text-secondary mb-2">MAP</h4>
-                        <h5 className="space-font font-semibold text-sm mb-2">Understanding the Customer Landscape</h5>
+                        <h4 className="pixel-font text-xs text-secondary mb-2">LISTEN & CONSULT</h4>
+                        <h5 className="space-font font-semibold text-sm mb-2">Customer Believes Microsoft Could Solve the Problem</h5>
                         <p className="space-font text-sm leading-relaxed text-foreground/90 mb-3">
-                          The Map stage is about comprehensive discovery. You're building a detailed understanding of the customer's organization, challenges, and opportunities.
+                          Build a detailed understanding of the customer's organization, challenges, and opportunities. Qualify the pipeline and create the foundation for the engagement.
                         </p>
+                        <div className="bg-muted p-2 mb-3 flex items-center gap-2">
+                          <span className="space-font text-xs font-semibold">Lead:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-primary/20 border border-primary/40">AE/ATS</span>
+                          <span className="space-font text-xs font-semibold ml-2">Unit:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-blue-500/20 border border-blue-500/40">ATU</span>
+                        </div>
                         <div className="space-y-2 bg-muted p-4 border-l-4 border-secondary">
                           <p className="space-font text-xs font-semibold text-secondary">KEY ACTIVITIES:</p>
                           <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                            <li>• Identify key stakeholders and decision-makers</li>
-                            <li>• Understand current business challenges and pain points</li>
-                            <li>• Map organizational structure and reporting relationships</li>
-                            <li>• Assess current technology stack and infrastructure</li>
-                            <li>• Define business objectives and success criteria</li>
-                            <li>• Discover budget authority and procurement processes</li>
+                            <li>• Consume Signals, Digital Qualification</li>
+                            <li>• Listen & Qualify Opportunity</li>
+                            <li>• Account Team and Partner Sync</li>
                           </ul>
+                          <p className="space-font text-xs mt-3"><strong>Customer Outcome:</strong> Customer believes Microsoft could solve the problem</p>
+                          <p className="space-font text-xs"><strong>Exit Criteria:</strong> Qualified Opportunity</p>
+                        </div>
+                        
+                        {/* Stage 1 Qualification Criteria */}
+                        <div className="mt-4 space-y-3">
+                          <div className="bg-blue-500/10 p-4 border border-blue-500/30">
+                            <p className="space-font text-xs font-semibold text-blue-300 mb-2">📋 STAGE 1 QUALIFICATION CRITERIA</p>
+                            <p className="space-font text-xs text-foreground/80 mb-2">ATU and STU should collaborate to ensure Oppty is qualified:</p>
+                            <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                              <li>• <strong>Customer Outcomes</strong> identified</li>
+                              <li>• <strong>Customer Decision maker/s</strong> (business and technical) identified</li>
+                              <li>• Major <strong>technical blockers</strong> identified with resolution plan</li>
+                              <li>• <strong>Approval Process</strong> determined and customer ready for Stage 2</li>
+                              <li>• <strong>Budget</strong> availability validated</li>
+                              <li>• <strong>Timing</strong> confirmed</li>
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-purple-500/10 p-4 border border-purple-500/30">
+                            <p className="space-font text-xs font-semibold text-purple-300 mb-2">📊 STAGE 1 MILESTONE CRITERIA</p>
+                            <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                              <li>• Create initial <strong>Uncommitted Milestone</strong> in MSX</li>
+                              <li>• <strong>Est. Due date and Est. Value (not $0)</strong> required</li>
+                              <li>• Focus on <strong>workloads</strong> and high-level sizing</li>
+                              <li>• Reflect major timing/phasing constraints</li>
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-yellow-500/10 p-4 border border-yellow-500/30">
+                            <p className="space-font text-xs font-semibold text-yellow-300 mb-2">🤝 REQUIRED: ATU-to-STU HANDOFF</p>
+                            <p className="space-font text-xs text-foreground/80">
+                              ATU & SSP must agree on <strong>Milestone value</strong> and <strong>Due Date</strong> before Oppty is moved to Stage 2
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -74,23 +121,43 @@ export function MCEMInfoDialog() {
 
                   <div className="border-t-2 border-border pt-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-3xl">⚔️</div>
+                      <div className="text-3xl">💡</div>
                       <div className="flex-1">
-                        <h4 className="pixel-font text-xs text-accent mb-2">COMPETE</h4>
-                        <h5 className="space-font font-semibold text-sm mb-2">Competitive Positioning & Differentiation</h5>
+                        <h4 className="pixel-font text-xs text-accent mb-2">INSPIRE & DESIGN</h4>
+                        <h5 className="space-font font-semibold text-sm mb-2">Co-Create Solutions Aligned to Business Priorities</h5>
                         <p className="space-font text-sm leading-relaxed text-foreground/90 mb-3">
-                          The Compete stage focuses on understanding the competitive landscape and positioning Microsoft solutions as the superior choice.
+                          Design solutions that address customer needs and align to their business priorities. Execute Solution Plays and establish technical validation.
                         </p>
+                        <div className="bg-muted p-2 mb-3 flex items-center gap-2">
+                          <span className="space-font text-xs font-semibold">Lead:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-primary/20 border border-primary/40">SSP/SE</span>
+                          <span className="space-font text-xs font-semibold ml-2">Unit:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-purple-500/20 border border-purple-500/40">STU</span>
+                        </div>
+                        
+                        {/* STU Responsibilities for Stage 2 */}
+                        <div className="bg-purple-500/10 p-3 border border-purple-500/30 mb-3">
+                          <p className="space-font text-xs font-semibold text-purple-300 mb-2">STU (Specialist) Responsibilities:</p>
+                          <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                            <li>• Receive and understand qualified opportunity, support ATU in additional qualification if needed</li>
+                            <li>• Within <strong>7 business days</strong> after transition discussion, take ownership of Uncommitted milestones in MSX</li>
+                            <li>• Work with Customer to move <strong>Uncommitted → Committed</strong> milestones</li>
+                          </ul>
+                        </div>
+                        
                         <div className="space-y-2 bg-muted p-4 border-l-4 border-accent">
                           <p className="space-font text-xs font-semibold text-accent">KEY ACTIVITIES:</p>
                           <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                            <li>• Identify competing vendors and solutions (AWS, Google, Oracle, etc.)</li>
-                            <li>• Analyze competitive strengths and weaknesses</li>
-                            <li>• Highlight Microsoft's unique value propositions</li>
-                            <li>• Address customer concerns about Microsoft vs. competitors</li>
-                            <li>• Build a win strategy leveraging Microsoft's ecosystem</li>
-                            <li>• Develop compelling competitive battle cards</li>
+                            <li>• Customer Workshops</li>
+                            <li>• Technical Assessment & Show Technical Ability</li>
+                            <li>• Business Value Assessment</li>
+                            <li>• Solution Assessment</li>
+                            <li>• Finalize Solution</li>
+                            <li>• Create Customer Success Plan</li>
+                            <li>• Finalize and Present Value Proposition</li>
                           </ul>
+                          <p className="space-font text-xs mt-3"><strong>Customer Outcome:</strong> Customer has interest in proposed solution</p>
+                          <p className="space-font text-xs"><strong>Exit Criteria:</strong> Customer Aligned to Solution</p>
                         </div>
                       </div>
                     </div>
@@ -98,22 +165,98 @@ export function MCEMInfoDialog() {
 
                   <div className="border-t-2 border-border pt-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-3xl">📈</div>
+                      <div className="text-3xl">🚀</div>
                       <div className="flex-1">
-                        <h4 className="pixel-font text-xs text-primary mb-2">EXPAND</h4>
-                        <h5 className="space-font font-semibold text-sm mb-2">Growth & Upsell Opportunities</h5>
+                        <h4 className="pixel-font text-xs text-primary mb-2">EMPOWER & ACHIEVE</h4>
+                        <h5 className="space-font font-semibold text-sm mb-2">Prove Business Case & Technology</h5>
                         <p className="space-font text-sm leading-relaxed text-foreground/90 mb-3">
-                          The Expand stage identifies opportunities to grow the engagement beyond the initial scope through additional workloads, users, or use cases.
+                          Secure technical and business decisions, negotiate agreements, and close the deal. Prepare for transition to delivery.
                         </p>
+                        <div className="bg-muted p-2 mb-3 flex items-center gap-2">
+                          <span className="space-font text-xs font-semibold">Lead:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-primary/20 border border-primary/40">SSP/SE</span>
+                          <span className="space-font text-xs font-semibold ml-2">Unit:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-purple-500/20 border border-purple-500/40">STU</span>
+                        </div>
                         <div className="space-y-2 bg-muted p-4 border-l-4 border-primary">
                           <p className="space-font text-xs font-semibold text-primary">KEY ACTIVITIES:</p>
                           <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                            <li>• Identify additional departments or teams that could benefit</li>
-                            <li>• Discover cross-sell opportunities across Microsoft product suite</li>
-                            <li>• Map additional use cases and workloads for migration</li>
-                            <li>• Explore premium features and higher-tier licenses</li>
-                            <li>• Identify integration opportunities with existing Microsoft solutions</li>
-                            <li>• Build a long-term growth roadmap</li>
+                            <li>• Technical and Business Proof</li>
+                            <li>• Deal Shaping</li>
+                            <li>• Negotiate Terms</li>
+                            <li>• Process Contract</li>
+                          </ul>
+                          <p className="space-font text-xs mt-3"><strong>Customer Outcome:</strong> Prove business case and technology</p>
+                          <p className="space-font text-xs"><strong>Exit Criteria:</strong> Customer Agreement in Place</p>
+                        </div>
+                        
+                        {/* STU End-of-Stage Responsibilities */}
+                        <div className="mt-4 space-y-3">
+                          <div className="bg-purple-500/10 p-4 border border-purple-500/30">
+                            <p className="space-font text-xs font-semibold text-purple-300 mb-2">📋 STU END-OF-STAGE RESPONSIBILITIES</p>
+                            <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                              <li>• Commit the Consumption Opportunity once customer has committed to proposed workloads, timeline, and revenue confirmed</li>
+                              <li>• Move Opportunity (Consumption Intent) to Stage 4 "Realize Value" in MSX</li>
+                              <li>• Transition Consumption Opportunity to CSU</li>
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-yellow-500/10 p-4 border border-yellow-500/30">
+                            <p className="space-font text-xs font-semibold text-yellow-300 mb-2">🤝 REQUIRED: STU-to-CSU HANDOFF</p>
+                            <p className="space-font text-xs text-foreground/80 mb-2">
+                              <strong>SSP should transition ownership of Stage 4 Opportunity to CSU within 7 days</strong>
+                            </p>
+                            <p className="space-font text-xs text-foreground/80">
+                              STU (Specialist) & CSU (CSAM/CSA) should meet and validate Consumption Opportunity details before ownership transfer
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t-2 border-border pt-6">
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="text-3xl">✅</div>
+                      <div className="flex-1">
+                        <h4 className="pixel-font text-xs text-success mb-2">REALIZE VALUE</h4>
+                        <h5 className="space-font font-semibold text-sm mb-2">Customer Satisfied with Implementation</h5>
+                        <p className="space-font text-sm leading-relaxed text-foreground/90 mb-3">
+                          Drive delivery and consumption for committed milestones. Ensure the customer achieves their desired business outcomes.
+                        </p>
+                        <div className="bg-muted p-2 mb-3 flex items-center gap-2">
+                          <span className="space-font text-xs font-semibold">Lead:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-primary/20 border border-primary/40">CSAM/CSA</span>
+                          <span className="space-font text-xs font-semibold ml-2">Unit:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-green-500/20 border border-green-500/40">CSU</span>
+                        </div>
+                        
+                        {/* CSU Responsibilities */}
+                        <div className="bg-green-500/10 p-3 border border-green-500/30 mb-3">
+                          <p className="space-font text-xs font-semibold text-green-300 mb-2">CSU (CSA/CSAM) Responsibilities:</p>
+                          <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                            <li>• Work with STU (SSP and SE) to confirm customer agreement details and any closing billed opportunity comments</li>
+                            <li>• Take ownership of Consumption Opportunity in MSX from SSP when it moves to Stage 4</li>
+                            <li>• Drive Consumption Opportunity to closure, updating status in MSX up to Est. Date</li>
+                          </ul>
+                        </div>
+                        
+                        <div className="space-y-2 bg-muted p-4 border-l-4 border-success">
+                          <p className="space-font text-xs font-semibold text-success">KEY ACTIVITIES:</p>
+                          <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                            <li>• Technical Implementation</li>
+                            <li>• Change Management and Training</li>
+                            <li>• Business Value Metric Baseline</li>
+                          </ul>
+                          <p className="space-font text-xs mt-3"><strong>Customer Outcome:</strong> Customer satisfied with implementation</p>
+                          <p className="space-font text-xs"><strong>Exit Criteria:</strong> Outcomes Met and Baseline Metrics in Place</p>
+                        </div>
+                        
+                        <div className="mt-3 bg-blue-500/10 p-3 border border-blue-500/30">
+                          <p className="space-font text-xs font-semibold text-blue-300 mb-2">📍 Resources for Handoff:</p>
+                          <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                            <li>• <strong>Unified Accounts:</strong> Check aka.ms/whoistheCSAM to identify the right CSAM owner</li>
+                            <li>• <strong>Non-Unified Accounts:</strong> Transition to the CSA manager accountable for your Area/OU</li>
                           </ul>
                         </div>
                       </div>
@@ -122,23 +265,36 @@ export function MCEMInfoDialog() {
 
                   <div className="border-t-2 border-border pt-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-3xl">⚙️</div>
+                      <div className="text-3xl">🔄</div>
                       <div className="flex-1">
-                        <h4 className="pixel-font text-xs text-success mb-2">MODERNIZE</h4>
-                        <h5 className="space-font font-semibold text-sm mb-2">Digital Transformation & Innovation</h5>
+                        <h4 className="pixel-font text-xs mb-2" style={{ color: 'oklch(0.75 0.18 85)' }}>MANAGE & OPTIMIZE</h4>
+                        <h5 className="space-font font-semibold text-sm mb-2">Customer Expectations Are Met</h5>
                         <p className="space-font text-sm leading-relaxed text-foreground/90 mb-3">
-                          The Modernize stage focuses on helping customers transform their technology infrastructure and business processes through cloud adoption and innovation.
+                          Drive solution health, achieve customer health outcomes, and identify expansion opportunities for continued growth.
                         </p>
-                        <div className="space-y-2 bg-muted p-4 border-l-4 border-success">
-                          <p className="space-font text-xs font-semibold text-success">KEY ACTIVITIES:</p>
+                        <div className="bg-muted p-2 mb-3 flex items-center gap-2">
+                          <span className="space-font text-xs font-semibold">Lead:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-primary/20 border border-primary/40">CSAM/CSA</span>
+                          <span className="space-font text-xs font-semibold ml-2">Unit:</span>
+                          <span className="space-font text-xs px-2 py-0.5 bg-green-500/20 border border-green-500/40">CSU</span>
+                        </div>
+                        <div className="space-y-2 bg-muted p-4 border-l-4" style={{ borderColor: 'oklch(0.75 0.18 85)' }}>
+                          <p className="space-font text-xs font-semibold" style={{ color: 'oklch(0.75 0.18 85)' }}>KEY ACTIVITIES:</p>
                           <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                            <li>• Assess cloud readiness and migration opportunities</li>
-                            <li>• Identify legacy systems for modernization</li>
-                            <li>• Design cloud architecture and migration strategy</li>
-                            <li>• Explore AI/ML capabilities and innovation opportunities</li>
-                            <li>• Plan for application modernization and containerization</li>
-                            <li>• Develop security and compliance frameworks for cloud</li>
+                            <li>• Solution Health Achieved</li>
+                            <li>• Business Value Metrics Achieved</li>
+                            <li>• Rightsizing/Legacy Removal/Backlog Identification</li>
                           </ul>
+                          <p className="space-font text-xs mt-3"><strong>Customer Outcome:</strong> Customer expectations are met</p>
+                          <p className="space-font text-xs"><strong>Exit Criteria:</strong> Opportunity Done and Next Steps Identified</p>
+                        </div>
+                        
+                        {/* Cycle Back Note */}
+                        <div className="mt-3 bg-blue-500/10 p-3 border border-blue-500/30">
+                          <p className="space-font text-xs font-semibold text-blue-300 mb-1">🔄 CONTINUOUS ENGAGEMENT</p>
+                          <p className="space-font text-xs text-foreground/80">
+                            After this stage, opportunities may cycle back to <strong>Listen & Consult</strong> for expansion opportunities, creating a continuous customer engagement loop.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -151,8 +307,18 @@ export function MCEMInfoDialog() {
                   <div>
                     <h3 className="pixel-font text-sm text-secondary mb-3">👥 MICROSOFT SALES TEAM ROLES</h3>
                     <p className="space-font text-sm leading-relaxed text-foreground/90">
-                      Microsoft's sales organization operates with specialized roles that work together to drive customer success. Understanding these roles helps you leverage the right expertise at each stage of the engagement.
+                      Microsoft's sales organization operates with specialized roles that work together to drive customer success. These roles are organized into two executive categories:
                     </p>
+                    <div className="mt-3 grid grid-cols-2 gap-3">
+                      <div className="bg-muted p-3 border-l-4 border-primary">
+                        <p className="space-font text-xs font-semibold text-primary">Commercial Executives (CE)</p>
+                        <p className="space-font text-xs text-foreground/80 mt-1">Drive deal strategy, negotiations, and deal execution.</p>
+                      </div>
+                      <div className="bg-muted p-3 border-l-4 border-accent">
+                        <p className="space-font text-xs font-semibold text-accent">Solution Engineers (SE)</p>
+                        <p className="space-font text-xs text-foreground/80 mt-1">Drive the technical win to accelerate customer commitment.</p>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="border-t-2 border-border pt-6">
@@ -162,21 +328,19 @@ export function MCEMInfoDialog() {
                         <h4 className="space-font font-bold text-sm mb-2">Account Executive (AE)</h4>
                         <div className="space-y-3">
                           <p className="space-font text-sm leading-relaxed text-foreground/90">
-                            The Account Executive is the primary relationship owner and quarterback for the customer account. They drive overall sales strategy and revenue growth.
+                            Owns the overall account strategy and executive relationships. Acts as the "quarterback" for the account, ensuring alignment between business outcomes and Microsoft solutions.
                           </p>
                           <div className="bg-muted p-4 space-y-2">
-                            <p className="space-font text-xs font-semibold text-secondary">RESPONSIBILITIES:</p>
+                            <p className="space-font text-xs font-semibold text-secondary">KEY RESPONSIBILITIES:</p>
                             <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                              <li>• Own customer relationship and account strategy</li>
-                              <li>• Drive revenue targets and quota attainment</li>
-                              <li>• Navigate executive-level conversations</li>
+                              <li>• Lead account planning and orchestration across the v-team</li>
+                              <li>• Understand customer business challenges and define strategy</li>
+                              <li>• Drive negotiation and deal closure</li>
                               <li>• Coordinate internal Microsoft resources</li>
-                              <li>• Lead deal negotiations and contract closure</li>
-                              <li>• Orchestrate the overall MCEM engagement</li>
                             </ul>
                           </div>
                           <div className="bg-primary/10 p-3 border-l-4 border-primary">
-                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> All stages, with emphasis on Map and Expand</p>
+                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> All stages - primary orchestrator of the MCEM engagement</p>
                           </div>
                         </div>
                       </div>
@@ -187,24 +351,22 @@ export function MCEMInfoDialog() {
                     <div className="flex items-start gap-4 mb-4">
                       <div className="text-3xl">🎯</div>
                       <div className="flex-1">
-                        <h4 className="space-font font-bold text-sm mb-2">Specialist Sales Professional (SSP)</h4>
+                        <h4 className="space-font font-bold text-sm mb-2">Solution Sales Professional (SSP)</h4>
                         <div className="space-y-3">
                           <p className="space-font text-sm leading-relaxed text-foreground/90">
-                            SSPs are deep technical sales experts focused on specific Microsoft workloads or solution areas (Azure, Security, Modern Work, Data & AI, etc.).
+                            Drives solution-specific sales motions. SSPs are deep technical sales experts focused on specific Microsoft workloads or solution areas (Azure, Security, Modern Work, Data & AI, etc.).
                           </p>
                           <div className="bg-muted p-4 space-y-2">
-                            <p className="space-font text-xs font-semibold text-secondary">RESPONSIBILITIES:</p>
+                            <p className="space-font text-xs font-semibold text-secondary">KEY RESPONSIBILITIES:</p>
                             <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                              <li>• Provide deep product and solution expertise</li>
-                              <li>• Drive workload-specific sales motions</li>
-                              <li>• Conduct technical discovery and solution design</li>
-                              <li>• Position specialized Microsoft offerings</li>
-                              <li>• Support competitive differentiation in their domain</li>
-                              <li>• Identify expansion opportunities within their specialty</li>
+                              <li>• Qualify opportunities and execute Solution Plays</li>
+                              <li>• Engage partners and/or services for technical validation</li>
+                              <li>• Secure the business decision for the solution area</li>
+                              <li>• Collaborate with AE and technical specialists during early stages</li>
                             </ul>
                           </div>
                           <div className="bg-primary/10 p-3 border-l-4 border-primary">
-                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> Compete, Expand, and Modernize for specific workloads</p>
+                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> Compete, Expand (solution-specific opportunities)</p>
                           </div>
                         </div>
                       </div>
@@ -215,24 +377,22 @@ export function MCEMInfoDialog() {
                     <div className="flex items-start gap-4 mb-4">
                       <div className="text-3xl">🔧</div>
                       <div className="flex-1">
-                        <h4 className="space-font font-bold text-sm mb-2">Solutions Engineer / Technical Specialist (ATS)</h4>
+                        <h4 className="space-font font-bold text-sm mb-2">Account Technology Strategist (ATS)</h4>
                         <div className="space-y-3">
                           <p className="space-font text-sm leading-relaxed text-foreground/90">
-                            Solutions Engineers (also called Azure Technical Specialists - ATS) are the technical experts who design, architect, and validate Microsoft solutions for customer scenarios.
+                            Owns the technology and innovation strategy for the account. Partners with AE to align technology strategy with business priorities.
                           </p>
                           <div className="bg-muted p-4 space-y-2">
-                            <p className="space-font text-xs font-semibold text-secondary">RESPONSIBILITIES:</p>
+                            <p className="space-font text-xs font-semibold text-secondary">KEY RESPONSIBILITIES:</p>
                             <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                              <li>• Conduct technical discovery and architecture sessions</li>
+                              <li>• Map business value to technology capabilities</li>
+                              <li>• Develop technical roadmaps and secure technical agreements</li>
+                              <li>• Ensure solutions fit the customer's tech landscape and consumption plan</li>
                               <li>• Design and validate solution architectures</li>
-                              <li>• Deliver product demos and proofs of concept</li>
-                              <li>• Address technical objections and concerns</li>
-                              <li>• Provide migration planning and technical roadmaps</li>
-                              <li>• Support technical evaluation and pilot phases</li>
                             </ul>
                           </div>
                           <div className="bg-primary/10 p-3 border-l-4 border-primary">
-                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> Map (technical discovery), Compete (technical differentiation), Modernize</p>
+                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> Map (technical discovery), Compete (technical differentiation), Modernize (architecture)</p>
                           </div>
                         </div>
                       </div>
@@ -241,26 +401,24 @@ export function MCEMInfoDialog() {
 
                   <div className="border-t-2 border-border pt-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-3xl">🎨</div>
+                      <div className="text-3xl">🏗️</div>
                       <div className="flex-1">
-                        <h4 className="space-font font-bold text-sm mb-2">Customer Success / Inspire & Design Roles</h4>
+                        <h4 className="space-font font-bold text-sm mb-2">Cloud Solution Architect (CSA)</h4>
                         <div className="space-y-3">
                           <p className="space-font text-sm leading-relaxed text-foreground/90">
-                            These roles focus on customer adoption, change management, and ensuring long-term success with Microsoft solutions. "Inspire & Design" refers to the process of envisioning transformative outcomes.
+                            Focuses on technical delivery and consumption. Ensures solution health and drives implementation for committed milestones.
                           </p>
                           <div className="bg-muted p-4 space-y-2">
-                            <p className="space-font text-xs font-semibold text-secondary">RESPONSIBILITIES:</p>
+                            <p className="space-font text-xs font-semibold text-secondary">KEY RESPONSIBILITIES:</p>
                             <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                              <li>• Design customer success and adoption strategies</li>
-                              <li>• Facilitate envisioning workshops and design sessions</li>
-                              <li>• Create business value frameworks and ROI models</li>
-                              <li>• Support change management and user adoption</li>
-                              <li>• Monitor health scores and usage metrics</li>
-                              <li>• Drive customer advocacy and reference development</li>
+                              <li>• Drive implementation and usage for committed milestones</li>
+                              <li>• Ensure solution health and identify expansion opportunities</li>
+                              <li>• Maintain Customer Success Plan (CSP) status and RAID logs</li>
+                              <li>• Validate outcomes and recommend next steps post-delivery</li>
                             </ul>
                           </div>
                           <div className="bg-primary/10 p-3 border-l-4 border-primary">
-                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> Map (business outcomes), Expand (adoption opportunities), Modernize (vision)</p>
+                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> Modernize (implementation), Expand (consumption-based growth)</p>
                           </div>
                         </div>
                       </div>
@@ -271,23 +429,22 @@ export function MCEMInfoDialog() {
                     <div className="flex items-start gap-4 mb-4">
                       <div className="text-3xl">🤝</div>
                       <div className="flex-1">
-                        <h4 className="space-font font-bold text-sm mb-2">Partner & Ecosystem Roles</h4>
+                        <h4 className="space-font font-bold text-sm mb-2">Customer Success Account Manager (CSAM)</h4>
                         <div className="space-y-3">
                           <p className="space-font text-sm leading-relaxed text-foreground/90">
-                            Microsoft works extensively with partners (system integrators, ISVs, consultants) who extend capabilities and accelerate customer success.
+                            Orchestrates customer success and value realization. Ensures long-term success and manages strategic account success rhythms.
                           </p>
                           <div className="bg-muted p-4 space-y-2">
-                            <p className="space-font text-xs font-semibold text-secondary">RESPONSIBILITIES:</p>
+                            <p className="space-font text-xs font-semibold text-secondary">KEY RESPONSIBILITIES:</p>
                             <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
-                              <li>• Identify and engage relevant partner resources</li>
-                              <li>• Coordinate implementation and delivery partners</li>
-                              <li>• Leverage ISV solutions from Azure Marketplace</li>
-                              <li>• Enable co-sell motions with strategic partners</li>
-                              <li>• Support managed services and ongoing operations</li>
+                              <li>• Create and manage the Customer Success Plan</li>
+                              <li>• Coordinate delivery of milestones and ensure operational health</li>
+                              <li>• Accelerate customer value and identify expansion opportunities</li>
+                              <li>• Engage executive sponsors and manage strategic account rhythms</li>
                             </ul>
                           </div>
                           <div className="bg-primary/10 p-3 border-l-4 border-primary">
-                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> All stages, particularly Expand and Modernize for implementation</p>
+                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> All stages post-sale - ensures long-term value realization</p>
                           </div>
                         </div>
                       </div>
@@ -295,10 +452,182 @@ export function MCEMInfoDialog() {
                   </div>
 
                   <div className="bg-accent/10 p-4 border-2 border-accent">
-                    <p className="space-font text-xs font-semibold text-accent mb-2">💡 COLLABORATION IS KEY</p>
-                    <p className="space-font text-xs leading-relaxed text-foreground/80">
-                      The most successful Microsoft engagements involve coordinated teamwork across these roles. The Account Executive orchestrates the team, bringing in SSPs for workload expertise, Solutions Engineers for technical validation, and Customer Success for adoption planning—all working together through the MCEM framework.
+                    <p className="space-font text-xs font-semibold text-accent mb-2">💡 HOW THEY WORK TOGETHER</p>
+                    <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                      <li>• <strong>AE + ATS:</strong> Define account and technology strategy</li>
+                      <li>• <strong>SSP:</strong> Executes solution-specific sales plays</li>
+                      <li>• <strong>CSA:</strong> Delivers technical outcomes and drives consumption</li>
+                      <li>• <strong>CSAM:</strong> Ensures long-term success and value realization post-sale</li>
+                    </ul>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="matrix" className="mt-0 space-y-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="pixel-font text-sm text-secondary mb-3">📊 STAGE ACCOUNTABILITY MATRIX</h3>
+                    <p className="space-font text-sm leading-relaxed text-foreground/90">
+                      This matrix shows the lead and supporting roles for each MCEM journey stage, along with their specific activities.
                     </p>
+                  </div>
+
+                  {/* Stage Summary Table */}
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs space-font">
+                      <thead>
+                        <tr className="bg-muted">
+                          <th className="p-2 text-left border border-border">Stage</th>
+                          <th className="p-2 text-left border border-border">Lead Role</th>
+                          <th className="p-2 text-left border border-border">Supporting Roles</th>
+                          <th className="p-2 text-left border border-border">Unit</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="p-2 border border-border font-semibold text-[oklch(0.65_0.20_150)]">👂 Listen & Consult</td>
+                          <td className="p-2 border border-border">AE/ATS</td>
+                          <td className="p-2 border border-border">SSP, CSAM, SAE, Partner</td>
+                          <td className="p-2 border border-border"><span className="px-2 py-0.5 rounded text-[10px] font-bold" style={{backgroundColor: 'oklch(0.65 0.20 150 / 0.2)', color: 'oklch(0.65 0.20 150)'}}>ATU</span></td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border border-border font-semibold text-[oklch(0.70_0.25_45)]">💡 Inspire & Design</td>
+                          <td className="p-2 border border-border">SSP/SE</td>
+                          <td className="p-2 border border-border">AE, ATS, SAE, PSS/PDM</td>
+                          <td className="p-2 border border-border"><span className="px-2 py-0.5 rounded text-[10px] font-bold" style={{backgroundColor: 'oklch(0.70 0.25 45 / 0.2)', color: 'oklch(0.70 0.25 45)'}}>STU</span></td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border border-border font-semibold text-[oklch(0.45_0.15_260)]">🚀 Empower & Achieve</td>
+                          <td className="p-2 border border-border">SSP/SE</td>
+                          <td className="p-2 border border-border">AE, ATS, CE, SAE, PSS/PDM</td>
+                          <td className="p-2 border border-border"><span className="px-2 py-0.5 rounded text-[10px] font-bold" style={{backgroundColor: 'oklch(0.70 0.25 45 / 0.2)', color: 'oklch(0.70 0.25 45)'}}>STU</span></td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border border-border font-semibold text-[oklch(0.75_0.18_85)]">✅ Realize Value</td>
+                          <td className="p-2 border border-border">CSAM/CSA</td>
+                          <td className="p-2 border border-border">SAE, Services, Partner, AE, ATS</td>
+                          <td className="p-2 border border-border"><span className="px-2 py-0.5 rounded text-[10px] font-bold" style={{backgroundColor: 'oklch(0.60 0.20 330 / 0.2)', color: 'oklch(0.60 0.20 330)'}}>CSU</span></td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 border border-border font-semibold text-[oklch(0.60_0.20_330)]">🔄 Manage & Optimize</td>
+                          <td className="p-2 border border-border">CSAM/CSA</td>
+                          <td className="p-2 border border-border">SAE, Services, Partner, AE, ATS</td>
+                          <td className="p-2 border border-border"><span className="px-2 py-0.5 rounded text-[10px] font-bold" style={{backgroundColor: 'oklch(0.60 0.20 330 / 0.2)', color: 'oklch(0.60 0.20 330)'}}>CSU</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Accountable Units */}
+                  <div className="border-t-2 border-border pt-6">
+                    <h4 className="pixel-font text-xs text-secondary mb-4">🏢 ACCOUNTABLE UNITS</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="p-4 rounded border-2" style={{borderColor: 'oklch(0.65 0.20 150)', backgroundColor: 'oklch(0.65 0.20 150 / 0.1)'}}>
+                        <h5 className="space-font font-bold text-sm mb-2" style={{color: 'oklch(0.65 0.20 150)'}}>ATU</h5>
+                        <p className="space-font text-xs text-muted-foreground mb-2">Account Team Unit</p>
+                        <p className="space-font text-xs"><strong>Roles:</strong> AE, ATS</p>
+                        <p className="space-font text-xs mt-2"><strong>Owns:</strong> Listen & Consult, Strategic planning & execution</p>
+                      </div>
+                      <div className="p-4 rounded border-2" style={{borderColor: 'oklch(0.70 0.25 45)', backgroundColor: 'oklch(0.70 0.25 45 / 0.1)'}}>
+                        <h5 className="space-font font-bold text-sm mb-2" style={{color: 'oklch(0.70 0.25 45)'}}>STU</h5>
+                        <p className="space-font text-xs text-muted-foreground mb-2">Solution Team Unit</p>
+                        <p className="space-font text-xs"><strong>Roles:</strong> SSP, SE</p>
+                        <p className="space-font text-xs mt-2"><strong>Owns:</strong> Inspire & Design, Empower & Achieve</p>
+                      </div>
+                      <div className="p-4 rounded border-2" style={{borderColor: 'oklch(0.60 0.20 330)', backgroundColor: 'oklch(0.60 0.20 330 / 0.1)'}}>
+                        <h5 className="space-font font-bold text-sm mb-2" style={{color: 'oklch(0.60 0.20 330)'}}>CSU</h5>
+                        <p className="space-font text-xs text-muted-foreground mb-2">Customer Success Unit</p>
+                        <p className="space-font text-xs"><strong>Roles:</strong> CSAM, CSA</p>
+                        <p className="space-font text-xs mt-2"><strong>Owns:</strong> Realize Value, Manage & Optimize</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Detailed Role Activities by Stage */}
+                  <div className="border-t-2 border-border pt-6">
+                    <h4 className="pixel-font text-xs text-secondary mb-4">📋 ROLE ACTIVITIES BY STAGE</h4>
+                    
+                    {/* Listen & Consult */}
+                    <div className="mb-6 p-4 rounded border-l-4" style={{borderColor: 'oklch(0.65 0.20 150)', backgroundColor: 'oklch(0.65 0.20 150 / 0.05)'}}>
+                      <h5 className="space-font font-bold text-sm mb-3" style={{color: 'oklch(0.65 0.20 150)'}}>👂 Listen & Consult</h5>
+                      <div className="space-y-2">
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">AE:</span> <span className="text-xs">Develop account plan, meet customer & qualify, engages partner</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">ATS:</span> <span className="text-xs">Develop Customer Secure AI Assessment, CxO TDM relationship, MACC Consumption Plan</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SSP:</span> <span className="text-xs">Support qualification, identify Solution Play</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SAE:</span> <span className="text-xs">Meet customer and qualify services opportunity (Consulting + Unified)</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">Partner:</span> <span className="text-xs">Discover Co-sell opportunities, submit inbound referral</span></div>
+                      </div>
+                    </div>
+
+                    {/* Inspire & Design */}
+                    <div className="mb-6 p-4 rounded border-l-4" style={{borderColor: 'oklch(0.70 0.25 45)', backgroundColor: 'oklch(0.70 0.25 45 / 0.05)'}}>
+                      <h5 className="space-font font-bold text-sm mb-3" style={{color: 'oklch(0.70 0.25 45)'}}>💡 Inspire & Design</h5>
+                      <div className="space-y-2">
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">AE:</span> <span className="text-xs">Orchestrate pursuit team</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">ATS:</span> <span className="text-xs">Drive tech efforts, ensure solution fits customer tech landscape</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SSP:</span> <span className="text-xs">Execute Solution Play, engage Partner and/or Services</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SE:</span> <span className="text-xs">Technical assessment, initial architecture, and proof</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">CSAM:</span> <span className="text-xs">Create Customer Success Plan (CSP)</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SAE:</span> <span className="text-xs">Orchestrate Services teams with Custom Consulting or Unified GBB</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">PSS/PDM:</span> <span className="text-xs">Accept outbound opportunities, collaborate on planning</span></div>
+                      </div>
+                    </div>
+
+                    {/* Empower & Achieve */}
+                    <div className="mb-6 p-4 rounded border-l-4" style={{borderColor: 'oklch(0.45 0.15 260)', backgroundColor: 'oklch(0.45 0.15 260 / 0.05)'}}>
+                      <h5 className="space-font font-bold text-sm mb-3" style={{color: 'oklch(0.45 0.15 260)'}}>🚀 Empower & Achieve</h5>
+                      <div className="space-y-2">
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">AE:</span> <span className="text-xs">Facilitate negotiation and deal closure</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">CE:</span> <span className="text-xs">Drive deal strategy, negotiation and deal execution</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">ATS:</span> <span className="text-xs">Secure tech agreements, ensure consumption plan covers 1st year MACC</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SSP:</span> <span className="text-xs">Secure business decision</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SE:</span> <span className="text-xs">Secure technical decision</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">CSAM:</span> <span className="text-xs">Prepare for milestone transition, validate and confirm CSP</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SAE:</span> <span className="text-xs">Drive negotiation and services deal closure</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">PSS/PDM:</span> <span className="text-xs">Deliver PoC, business value, accelerate & secure agreement</span></div>
+                      </div>
+                    </div>
+
+                    {/* Realize Value */}
+                    <div className="mb-6 p-4 rounded border-l-4" style={{borderColor: 'oklch(0.75 0.18 85)', backgroundColor: 'oklch(0.75 0.18 85 / 0.05)'}}>
+                      <h5 className="space-font font-bold text-sm mb-3" style={{color: 'oklch(0.75 0.18 85)'}}>✅ Realize Value</h5>
+                      <div className="space-y-2">
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">CSA:</span> <span className="text-xs">Drive delivery and consumption/usage for committed milestones</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">CSAM:</span> <span className="text-xs">Coordinate CSP delivery, lead milestones to completion (Unified). Engages CSA as needed</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SAE:</span> <span className="text-xs">Stay engaged with Consulting CPM or Unified CSDR during delivery</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">Partner:</span> <span className="text-xs">Drive delivery of partner delivered milestones</span></div>
+                      </div>
+                    </div>
+
+                    {/* Manage & Optimize */}
+                    <div className="mb-6 p-4 rounded border-l-4" style={{borderColor: 'oklch(0.60 0.20 330)', backgroundColor: 'oklch(0.60 0.20 330 / 0.05)'}}>
+                      <h5 className="space-font font-bold text-sm mb-3" style={{color: 'oklch(0.60 0.20 330)'}}>🔄 Manage & Optimize</h5>
+                      <div className="space-y-2">
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">CSA:</span> <span className="text-xs">Drive solution health, identify expansion opportunities</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">CSAM:</span> <span className="text-xs">Achieve customer health outcomes, accelerate value, identify expansion</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">SAE:</span> <span className="text-xs">Identify services expansion opportunities</span></div>
+                        <div className="bg-background/50 p-2 rounded"><span className="font-bold text-xs">Partner:</span> <span className="text-xs">Optimize solution architecture, identify expansion opportunities</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Key Acronyms */}
+                  <div className="border-t-2 border-border pt-6">
+                    <h4 className="pixel-font text-xs text-secondary mb-4">📖 KEY ACRONYMS</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+                      <div className="bg-muted p-2 rounded"><strong>AE:</strong> Account Executive</div>
+                      <div className="bg-muted p-2 rounded"><strong>ATS:</strong> Account Technology Strategist</div>
+                      <div className="bg-muted p-2 rounded"><strong>SSP:</strong> Solution Sales Professional</div>
+                      <div className="bg-muted p-2 rounded"><strong>SE:</strong> Solution Engineer</div>
+                      <div className="bg-muted p-2 rounded"><strong>CSA:</strong> Cloud Solution Architect</div>
+                      <div className="bg-muted p-2 rounded"><strong>CSAM:</strong> Customer Success Account Manager</div>
+                      <div className="bg-muted p-2 rounded"><strong>CE:</strong> Commercial Executive</div>
+                      <div className="bg-muted p-2 rounded"><strong>SAE:</strong> Services Account Executive</div>
+                      <div className="bg-muted p-2 rounded"><strong>PSS:</strong> Partner Solution Specialist</div>
+                      <div className="bg-muted p-2 rounded"><strong>PDM:</strong> Partner Development Manager</div>
+                      <div className="bg-muted p-2 rounded"><strong>CSP:</strong> Customer Success Plan</div>
+                      <div className="bg-muted p-2 rounded"><strong>MACC:</strong> Microsoft Azure Consumption Commitment</div>
+                    </div>
                   </div>
                 </div>
               </TabsContent>
