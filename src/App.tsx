@@ -6,6 +6,7 @@ import { ProgressBar } from '@/components/ProgressBar'
 import { PixelLoader } from '@/components/PixelLoader'
 import { MCEMInfoDialog } from '@/components/MCEMInfoDialog'
 import { MCEMStateDiagram } from '@/components/MCEMStateDiagram'
+import { TemplateSelector, ScenarioTemplate } from '@/components/TemplateSelector'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 
@@ -44,6 +45,7 @@ function App() {
   const [showSamples, setShowSamples] = useState(false)
   const [activeJourneyStage, setActiveJourneyStage] = useState<string | undefined>(undefined)
   const [completedJourneyStages, setCompletedJourneyStages] = useState<string[]>([])
+  const [activeTemplate, setActiveTemplate] = useState<ScenarioTemplate | null>(null)
   
   // MCEM = Microsoft Customer Engagement Methodology - 5 stages mapping to customer journey
   const [stages, setStages] = useState<MCEMStage[]>([
@@ -73,7 +75,82 @@ function App() {
   const MIN_CHARS = 100
   const MAX_CHARS = 5000
   const charCount = inputText.length
-  const canSubmit = charCount >= MIN_CHARS && charCount <= MAX_CHARS && !isAnalyzing
+  const canSubmit = (charCount >= MIN_CHARS && charCount <= MAX_CHARS && !isAnalyzing) || activeTemplate !== null
+
+  // Handle template selection
+  const handleTemplateSelect = (template: ScenarioTemplate) => {
+    // Reset stages first, then set template and text
+    setCurrentStageIndex(-1)
+    setActiveJourneyStage(undefined)
+    setCompletedJourneyStages([])
+    setStages([
+      { id: 'listen-consult', title: 'LISTEN & CONSULT', icon: '👂', status: 'locked', color: STAGE_COLORS['listen-consult'], roles: ['AE', 'ATS', 'SSP', 'CSAM', 'SAE'], unit: 'ATU' },
+      { id: 'inspire-design', title: 'INSPIRE & DESIGN', icon: '💡', status: 'locked', color: STAGE_COLORS['inspire-design'], roles: ['SSP', 'SE', 'AE', 'ATS', 'CSAM', 'SAE'], unit: 'STU' },
+      { id: 'empower-achieve', title: 'EMPOWER & ACHIEVE', icon: '🚀', status: 'locked', color: STAGE_COLORS['empower-achieve'], roles: ['SSP', 'SE', 'AE', 'CE', 'ATS', 'CSAM', 'SAE'], unit: 'STU' },
+      { id: 'realize-value', title: 'REALIZE VALUE', icon: '✅', status: 'locked', color: STAGE_COLORS['realize-value'], roles: ['CSAM', 'CSA', 'SAE', 'Partner'], unit: 'CSU' },
+      { id: 'manage-optimize', title: 'MANAGE & OPTIMIZE', icon: '🔄', status: 'locked', color: STAGE_COLORS['manage-optimize'], roles: ['CSAM', 'CSA', 'SAE', 'Partner'], unit: 'CSU' }
+    ])
+    // Now set the template and text
+    setActiveTemplate(template)
+    setInputText(template.opportunityText)
+    toast.success(`📋 Loaded scenario: ${template.title}`)
+  }
+
+  // Run scenario from template (no LLM needed)
+  const runScenarioFromTemplate = async () => {
+    if (!activeTemplate) return
+
+    setIsAnalyzing(true)
+    setCurrentStageIndex(-1)
+    setCompletedJourneyStages([])
+
+    const stageIds: (keyof ScenarioTemplate['stages'])[] = [
+      'listen-consult',
+      'inspire-design',
+      'empower-achieve',
+      'realize-value',
+      'manage-optimize'
+    ]
+
+    try {
+      for (let i = 0; i < stageIds.length; i++) {
+        const stageId = stageIds[i]
+        setCurrentStageIndex(i)
+        
+        // Update journey diagram - set active stage
+        setActiveJourneyStage(stageId)
+
+        setStages(prev => prev.map((stage, idx) => 
+          idx === i ? { ...stage, status: 'unlocked' } : stage
+        ))
+
+        // Simulate processing delay for visual effect
+        await new Promise(resolve => setTimeout(resolve, 800))
+
+        // Get content from template
+        const content = activeTemplate.stages[stageId].content
+
+        setStages(prev => prev.map((stage, idx) => 
+          idx === i ? { ...stage, status: 'completed', content } : stage
+        ))
+        
+        // Mark journey stage as completed
+        setCompletedJourneyStages(prev => [...prev, stageId])
+
+        await new Promise(resolve => setTimeout(resolve, 300))
+      }
+
+      setActiveJourneyStage(undefined)
+
+      toast.success(`🎮 Quest Complete! ${activeTemplate.customer} scenario fully simulated.`)
+    } catch (error) {
+      toast.error('⚠️ Scenario simulation failed. Please try again.')
+      console.error('Scenario error:', error)
+    } finally {
+      setIsAnalyzing(false)
+      setCurrentStageIndex(-1)
+    }
+  }
 
   const analyzeWithLLM = async (stageName: string, stageDescription: string, roleGuidance: string): Promise<string> => {
     // Check if Spark LLM is available
@@ -307,6 +384,7 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
     setCurrentStageIndex(-1)
     setActiveJourneyStage(undefined)
     setCompletedJourneyStages([])
+    setActiveTemplate(null)
     setStages([
       { id: 'listen-consult', title: 'LISTEN & CONSULT', icon: '👂', status: 'locked', color: STAGE_COLORS['listen-consult'], roles: ['AE', 'ATS', 'SSP', 'CSAM', 'SAE'], unit: 'ATU' },
       { id: 'inspire-design', title: 'INSPIRE & DESIGN', icon: '💡', status: 'locked', color: STAGE_COLORS['inspire-design'], roles: ['SSP', 'SE', 'AE', 'ATS', 'CSAM', 'SAE'], unit: 'STU' },
@@ -316,9 +394,16 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
     ])
   }
 
+  const handleFullReset = () => {
+    handleReset()
+    setActiveTemplate(null)
+    toast.success('🔄 Reset complete')
+  }
+
   const loadSample = (sample: SampleOpportunity) => {
     setInputText(sample.text)
     setShowSamples(false)
+    setActiveTemplate(null)
     handleReset()
     toast.success(`📋 Loaded: ${sample.title}`)
   }
@@ -339,8 +424,12 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
           <p className="space-font text-sm md:text-base text-foreground/80">
             Microsoft Customer Engagement Methodology - Journey through the five stages of customer success
           </p>
-          <div className="flex justify-center pt-2">
+          <div className="flex justify-center gap-3 pt-2">
             <MCEMInfoDialog />
+            <TemplateSelector 
+              onSelectTemplate={handleTemplateSelect}
+              disabled={isAnalyzing}
+            />
           </div>
         </motion.div>
 
@@ -355,6 +444,36 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
           />
         </motion.div>
 
+        {/* Active Scenario Banner */}
+        {activeTemplate && (
+          <motion.div
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-accent/10 border-2 border-accent/30 p-4 rounded-lg"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">📋</span>
+                <div>
+                  <h3 className="pixel-font text-xs text-accent">{activeTemplate.title}</h3>
+                  <p className="space-font text-xs text-muted-foreground">
+                    {activeTemplate.customer} • {activeTemplate.industry} • Partner: {activeTemplate.partner}
+                  </p>
+                </div>
+              </div>
+              <Button
+                onClick={handleFullReset}
+                variant="ghost"
+                size="sm"
+                className="space-font text-xs text-muted-foreground hover:text-destructive"
+                disabled={isAnalyzing}
+              >
+                ✕ Clear
+              </Button>
+            </div>
+          </motion.div>
+        )}
+
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -363,9 +482,9 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
         >
           <div className="flex justify-between items-center mb-4">
             <label className="pixel-font text-xs text-secondary">
-              ENTER OPPORTUNITY
+              {activeTemplate ? 'SCENARIO OPPORTUNITY' : 'ENTER OPPORTUNITY'}
             </label>
-            {sampleOpportunities.length > 0 && (
+            {sampleOpportunities.length > 0 && !activeTemplate && (
               <Button
                 onClick={() => setShowSamples(!showSamples)}
                 variant="ghost"
@@ -397,10 +516,11 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
 
           <Textarea
             value={inputText}
-            onChange={(e) => setInputText(e.target.value.slice(0, MAX_CHARS))}
+            onChange={(e) => !activeTemplate && setInputText(e.target.value.slice(0, MAX_CHARS))}
             placeholder="Paste your sales opportunity, project description, or customer engagement details here. Include context about the customer, their challenges, stakeholders, current solutions, and business objectives..."
-            className="min-h-[200px] bg-muted border-2 border-border focus:border-accent transition-colors space-font text-sm resize-none"
+            className={`min-h-[200px] bg-muted border-2 border-border focus:border-accent transition-colors space-font text-sm resize-none ${activeTemplate ? 'opacity-80' : ''}`}
             disabled={isAnalyzing}
+            readOnly={!!activeTemplate}
           />
           <div className="flex justify-between items-center mt-4">
             <span className={`space-font text-xs ${
@@ -408,12 +528,16 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
               charCount > MAX_CHARS ? 'text-destructive' : 
               'text-success'
             }`}>
-              {charCount} / {MAX_CHARS} chars {charCount < MIN_CHARS && `(min ${MIN_CHARS})`}
+              {activeTemplate ? (
+                <span className="text-success">📋 Scenario loaded - ready to simulate</span>
+              ) : (
+                <>{charCount} / {MAX_CHARS} chars {charCount < MIN_CHARS && `(min ${MIN_CHARS})`}</>
+              )}
             </span>
             <div className="flex gap-2">
-              {inputText && (
+              {(inputText || activeTemplate) && (
                 <Button
-                  onClick={handleReset}
+                  onClick={handleFullReset}
                   variant="outline"
                   className="pixel-button space-font text-xs font-medium"
                   disabled={isAnalyzing}
@@ -421,14 +545,25 @@ Cycle Back: After this stage, opportunities may cycle back to Listen & Consult f
                   RESET
                 </Button>
               )}
-              <Button
-                onClick={handleAnalyze}
-                disabled={!canSubmit}
-                className="pixel-button bg-accent text-accent-foreground hover:bg-accent space-font text-xs font-medium"
-                style={{ color: 'var(--color-accent-foreground)' }}
-              >
-                {isAnalyzing ? 'ANALYZING...' : 'ANALYZE'}
-              </Button>
+              {activeTemplate ? (
+                <Button
+                  onClick={runScenarioFromTemplate}
+                  disabled={isAnalyzing}
+                  className="pixel-button bg-accent text-accent-foreground hover:bg-accent space-font text-xs font-medium"
+                  style={{ color: 'var(--color-accent-foreground)' }}
+                >
+                  {isAnalyzing ? 'SIMULATING...' : '▶ RUN SCENARIO'}
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleAnalyze}
+                  disabled={!canSubmit}
+                  className="pixel-button bg-accent text-accent-foreground hover:bg-accent space-font text-xs font-medium"
+                  style={{ color: 'var(--color-accent-foreground)' }}
+                >
+                  {isAnalyzing ? 'ANALYZING...' : 'ANALYZE'}
+                </Button>
+              )}
             </div>
           </div>
         </motion.div>
