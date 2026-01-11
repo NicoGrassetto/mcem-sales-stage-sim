@@ -4,6 +4,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { StageCard } from '@/components/StageCard'
 import { ProgressBar } from '@/components/ProgressBar'
 import { PixelLoader } from '@/components/PixelLoader'
+import { MCEMInfoDialog } from '@/components/MCEMInfoDialog'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
 
@@ -14,6 +15,7 @@ interface MCEMStage {
   status: 'locked' | 'unlocked' | 'completed'
   content?: string
   color: string
+  roles: string[]
 }
 
 interface SampleOpportunity {
@@ -36,10 +38,10 @@ function App() {
   const [sampleOpportunities, setSampleOpportunities] = useState<SampleOpportunity[]>([])
   const [showSamples, setShowSamples] = useState(false)
   const [stages, setStages] = useState<MCEMStage[]>([
-    { id: 'map', title: 'MAP', icon: '🔍', status: 'locked', color: STAGE_COLORS.map },
-    { id: 'compete', title: 'COMPETE', icon: '⚔️', status: 'locked', color: STAGE_COLORS.compete },
-    { id: 'expand', title: 'EXPAND', icon: '📈', status: 'locked', color: STAGE_COLORS.expand },
-    { id: 'modernize', title: 'MODERNIZE', icon: '⚙️', status: 'locked', color: STAGE_COLORS.modernize }
+    { id: 'map', title: 'MAP', icon: '🔍', status: 'locked', color: STAGE_COLORS.map, roles: ['AE', 'ATS', 'CS'] },
+    { id: 'compete', title: 'COMPETE', icon: '⚔️', status: 'locked', color: STAGE_COLORS.compete, roles: ['SSP', 'ATS', 'AE'] },
+    { id: 'expand', title: 'EXPAND', icon: '📈', status: 'locked', color: STAGE_COLORS.expand, roles: ['AE', 'SSP', 'CS'] },
+    { id: 'modernize', title: 'MODERNIZE', icon: '⚙️', status: 'locked', color: STAGE_COLORS.modernize, roles: ['ATS', 'SSP', 'CS'] }
   ])
 
   useEffect(() => {
@@ -57,16 +59,19 @@ function App() {
   const charCount = inputText.length
   const canSubmit = charCount >= MIN_CHARS && charCount <= MAX_CHARS && !isAnalyzing
 
-  const analyzeWithLLM = async (stageName: string, stageDescription: string): Promise<string> => {
+  const analyzeWithLLM = async (stageName: string, stageDescription: string, roleGuidance: string): Promise<string> => {
     const prompt = window.spark.llmPrompt`You are an expert Microsoft sales analyst specializing in the MCEM (Map, Compete, Expand, Modernize) sales methodology.
 
 Stage: ${stageName}
 Stage Description: ${stageDescription}
 
+Role Guidance for this stage:
+${roleGuidance}
+
 Opportunity/Engagement Text:
 ${inputText}
 
-Analyze this opportunity specifically for the ${stageName} stage. Provide actionable insights, key considerations, and recommendations in 3-5 concise paragraphs. Be specific and reference details from the engagement text.
+Analyze this opportunity specifically for the ${stageName} stage. Provide actionable insights, key considerations, and recommendations in 3-5 concise paragraphs. Be specific and reference details from the engagement text. Consider which Microsoft sales team members (Account Executive, SSP, Solutions Engineer/ATS, Customer Success) should be involved and what they should focus on.
 
 Format your response as clear, professional paragraphs without bullet points or headers.`
 
@@ -84,22 +89,26 @@ Format your response as clear, professional paragraphs without bullet points or 
       { 
         id: 'map', 
         name: 'MAP',
-        description: 'Map the customer landscape - understand stakeholders, decision makers, business challenges, current state, and organizational dynamics'
+        description: 'Map the customer landscape - understand stakeholders, decision makers, business challenges, current state, and organizational dynamics',
+        roleGuidance: 'Account Executive leads relationship mapping and stakeholder identification. Solutions Engineer (ATS) conducts technical discovery. Customer Success identifies business outcomes and success criteria.'
       },
       { 
         id: 'compete', 
         name: 'COMPETE',
-        description: 'Competitive positioning - identify competitors, differentiation points, competitive advantages, risks, and win strategies'
+        description: 'Competitive positioning - identify competitors, differentiation points, competitive advantages, risks, and win strategies',
+        roleGuidance: 'Specialist Sales Professional (SSP) provides workload-specific competitive intelligence. Solutions Engineer (ATS) addresses technical differentiation. Account Executive develops overall win strategy.'
       },
       { 
         id: 'expand', 
         name: 'EXPAND',
-        description: 'Expansion opportunities - identify upsell potential, cross-sell opportunities, additional use cases, and growth pathways'
+        description: 'Expansion opportunities - identify upsell potential, cross-sell opportunities, additional use cases, and growth pathways',
+        roleGuidance: 'Account Executive identifies account expansion opportunities. SSPs discover workload-specific upsell possibilities. Customer Success identifies adoption opportunities and additional use cases.'
       },
       { 
         id: 'modernize', 
         name: 'MODERNIZE',
-        description: 'Modernization strategy - cloud migration paths, digital transformation opportunities, technical modernization, and innovation potential'
+        description: 'Modernization strategy - cloud migration paths, digital transformation opportunities, technical modernization, and innovation potential',
+        roleGuidance: 'Solutions Engineer (ATS) designs cloud architecture and migration strategy. SSPs position modern workload capabilities. Customer Success creates transformation vision and change management plan.'
       }
     ]
 
@@ -112,7 +121,7 @@ Format your response as clear, professional paragraphs without bullet points or 
           idx === i ? { ...stage, status: 'unlocked' } : stage
         ))
 
-        const content = await analyzeWithLLM(stageDef.name, stageDef.description)
+        const content = await analyzeWithLLM(stageDef.name, stageDef.description, stageDef.roleGuidance)
 
         setStages(prev => prev.map((stage, idx) => 
           idx === i ? { ...stage, status: 'completed', content } : stage
@@ -135,10 +144,10 @@ Format your response as clear, professional paragraphs without bullet points or 
     setInputText('')
     setCurrentStageIndex(-1)
     setStages([
-      { id: 'map', title: 'MAP', icon: '🔍', status: 'locked', color: STAGE_COLORS.map },
-      { id: 'compete', title: 'COMPETE', icon: '⚔️', status: 'locked', color: STAGE_COLORS.compete },
-      { id: 'expand', title: 'EXPAND', icon: '📈', status: 'locked', color: STAGE_COLORS.expand },
-      { id: 'modernize', title: 'MODERNIZE', icon: '⚙️', status: 'locked', color: STAGE_COLORS.modernize }
+      { id: 'map', title: 'MAP', icon: '🔍', status: 'locked', color: STAGE_COLORS.map, roles: ['AE', 'ATS', 'CS'] },
+      { id: 'compete', title: 'COMPETE', icon: '⚔️', status: 'locked', color: STAGE_COLORS.compete, roles: ['SSP', 'ATS', 'AE'] },
+      { id: 'expand', title: 'EXPAND', icon: '📈', status: 'locked', color: STAGE_COLORS.expand, roles: ['AE', 'SSP', 'CS'] },
+      { id: 'modernize', title: 'MODERNIZE', icon: '⚙️', status: 'locked', color: STAGE_COLORS.modernize, roles: ['ATS', 'SSP', 'CS'] }
     ])
   }
 
@@ -165,6 +174,9 @@ Format your response as clear, professional paragraphs without bullet points or 
           <p className="space-font text-sm md:text-base text-foreground/80">
             Transform your sales opportunity through the four stages of Microsoft's MCEM model
           </p>
+          <div className="flex justify-center pt-2">
+            <MCEMInfoDialog />
+          </div>
         </motion.div>
 
         <motion.div
@@ -272,6 +284,7 @@ Format your response as clear, professional paragraphs without bullet points or 
                   status={stage.status}
                   content={stage.content}
                   color={stage.color}
+                  roles={stage.roles}
                 />
               ))}
             </div>

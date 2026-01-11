@@ -20,11 +20,11 @@ A gamified sales engagement analyzer that guides users through Microsoft's MCEM 
 - **Success criteria**: Text persists in textarea, minimum character threshold enforced (100+ chars), smooth input experience
 
 ### MCEM Stage Simulation
-- **Functionality**: LLM processes input text and generates stage-specific insights for Map, Compete, Expand, and Modernize phases
-- **Purpose**: Transforms raw opportunity text into actionable sales intelligence aligned with Microsoft methodology
+- **Functionality**: LLM processes input text and generates stage-specific insights for Map, Compete, Expand, and Modernize phases, with role-specific guidance for Account Executive, SSP, ATS, and Customer Success roles
+- **Purpose**: Transforms raw opportunity text into actionable sales intelligence aligned with Microsoft methodology, including which team members should be involved
 - **Trigger**: User clicks "Analyze" button after entering engagement text
-- **Progression**: Analyze clicked → Loading state with pixel art animation → LLM processes text through each stage → Results appear sequentially with unlock animations → Each stage card reveals insights
-- **Success criteria**: All 4 stages generate relevant, contextual responses; content is sales-focused and actionable; stages appear in order
+- **Progression**: Analyze clicked → Loading state with pixel art animation → LLM processes text through each stage with role guidance → Results appear sequentially with unlock animations → Each stage card reveals insights and shows relevant roles (AE, SSP, ATS, CS)
+- **Success criteria**: All 4 stages generate relevant, contextual responses; content is sales-focused and actionable; stages appear in order; role indicators display correctly
 
 ### Pixel Art Visual Progression
 - **Functionality**: Gamified UI showing locked/unlocked stages with pixel sprites, progress bars, and retro visual effects
@@ -34,11 +34,18 @@ A gamified sales engagement analyzer that guides users through Microsoft's MCEM 
 - **Success criteria**: Smooth stage transitions, satisfying unlock animations, clear visual hierarchy of progress
 
 ### Results Display & Export
-- **Functionality**: Each MCEM stage displays as an expandable card with key findings, recommendations, and action items; option to copy or download results
-- **Purpose**: Provides actionable intelligence in scannable format for immediate use in sales planning
+- **Functionality**: Each MCEM stage displays as an expandable card with key findings, recommendations, and action items; shows which Microsoft sales roles (AE, SSP, ATS, CS) are involved; option to copy or download results
+- **Purpose**: Provides actionable intelligence in scannable format for immediate use in sales planning with clear role assignments
 - **Trigger**: Analysis completes for each stage
-- **Progression**: Stage unlocks → Card animates in → User clicks to expand details → Reads insights → Optionally copies content → Repeats for next stage
-- **Success criteria**: Content is readable, organized hierarchically, expandable/collapsible, copyable
+- **Progression**: Stage unlocks → Card animates in with role indicators → User clicks to expand details → Reads insights → Optionally copies content → Repeats for next stage
+- **Success criteria**: Content is readable, organized hierarchically, expandable/collapsible, copyable; role indicators are visible and clear
+
+### MCEM & Roles Education
+- **Functionality**: Information dialog accessible from header that provides comprehensive details about the 4 MCEM stages (Map, Compete, Expand, Modernize) and Microsoft sales team roles (Account Executive, SSP, Solutions Engineer/ATS, Customer Success, Partners)
+- **Purpose**: Educates users on the methodology and sales structure to better understand the analysis results
+- **Trigger**: User clicks "Learn MCEM" button in header
+- **Progression**: Button clicked → Dialog opens → User tabs between "MCEM Stages" and "Sales Roles" → Reads detailed explanations with key activities → Closes dialog
+- **Success criteria**: Dialog displays comprehensive information, tabs work smoothly, content is well-formatted and educational, scrollable for long content
 
 ## Edge Case Handling
 

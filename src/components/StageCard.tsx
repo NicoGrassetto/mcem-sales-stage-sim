@@ -8,10 +8,18 @@ interface StageCardProps {
   status: 'locked' | 'unlocked' | 'completed'
   content?: string
   color: string
+  roles?: string[]
 }
 
-export function StageCard({ title, icon, status, content, color }: StageCardProps) {
+export function StageCard({ title, icon, status, content, color, roles }: StageCardProps) {
   const [expanded, setExpanded] = useState(false)
+
+  const roleIcons: Record<string, string> = {
+    'AE': '💼',
+    'SSP': '🎯',
+    'ATS': '🔧',
+    'CS': '🎨'
+  }
 
   if (status === 'locked') {
     return (
@@ -48,6 +56,19 @@ export function StageCard({ title, icon, status, content, color }: StageCardProp
             <p className="space-font text-xs text-muted-foreground mt-2">
               {status === 'completed' ? '✓ Complete' : '⚡ Processing'}
             </p>
+            {roles && roles.length > 0 && (
+              <div className="flex gap-1 mt-2">
+                {roles.map((role) => (
+                  <span 
+                    key={role} 
+                    className="text-xs space-font bg-muted px-2 py-0.5 border border-border"
+                    title={role}
+                  >
+                    {roleIcons[role] || '👤'} {role}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
           <div className="text-accent text-xl">{expanded ? '▼' : '▶'}</div>
         </div>
