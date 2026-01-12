@@ -10,6 +10,9 @@ const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Set base to your repository name for GitHub Pages
+  // Change 'mcem-sales-stage-sim' to your actual repository name
+  base: '/mcem-sales-stage-sim/',
   plugins: [
     react(),
     tailwindcss(),

@@ -48,6 +48,7 @@ const industryIcons: Record<string, string> = {
   'Energy': '⚡',
   'Government': '🏛️',
   'Education': '🎓',
+  'Transportation': '🚂',
 }
 
 const industryColors: Record<string, string> = {
@@ -58,6 +59,7 @@ const industryColors: Record<string, string> = {
   'Retail': 'from-pink-500/20 to-pink-600/10 border-pink-500/40',
   'Energy': 'from-yellow-500/20 to-yellow-600/10 border-yellow-500/40',
   'Government': 'from-slate-500/20 to-slate-600/10 border-slate-500/40',
+  'Transportation': 'from-cyan-500/20 to-cyan-600/10 border-cyan-500/40',
   'Education': 'from-green-500/20 to-green-600/10 border-green-500/40',
 }
 
@@ -107,24 +109,24 @@ export function TemplateSelector({ onSelectTemplate, disabled }: TemplateSelecto
                 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background
               `}
             >
-              <div className="flex items-start gap-3 overflow-hidden">
+              <div className="flex items-start gap-3">
                 <span className="text-2xl flex-shrink-0">
                   {industryIcons[template.industry] || '🏢'}
                 </span>
-                <div className="flex-1 min-w-0 overflow-hidden">
-                  <h3 className="pixel-font text-[10px] text-foreground truncate">
+                <div className="flex-1 min-w-0">
+                  <h3 className="pixel-font text-xs text-foreground leading-tight">
                     {template.title}
                   </h3>
                   <div className="flex items-center gap-1 mt-1 flex-wrap">
-                    <span className="space-font text-[10px] text-muted-foreground truncate">
+                    <span className="space-font text-[10px] text-muted-foreground">
                       {template.customer}
                     </span>
                     <span className="text-muted-foreground text-[10px]">•</span>
-                    <span className="space-font text-[10px] text-muted-foreground truncate">
+                    <span className="space-font text-[10px] text-muted-foreground">
                       {template.industry}
                     </span>
                   </div>
-                  <p className="space-font text-[10px] text-muted-foreground mt-1 line-clamp-2 break-words">
+                  <p className="space-font text-[10px] text-muted-foreground mt-1 line-clamp-2">
                     {template.description}
                   </p>
                   <div className="flex items-center gap-1 mt-2">

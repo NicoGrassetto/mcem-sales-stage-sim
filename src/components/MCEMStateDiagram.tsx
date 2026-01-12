@@ -157,17 +157,17 @@ export function MCEMStateDiagram({ activeStage, completedStages = [] }: MCEMStat
       {/* Desktop/Tablet View - Horizontal */}
       <div className="hidden md:block">
         <div className="relative">
-          {/* Connection Line */}
-          <div className="absolute top-12 left-0 right-0 h-1 bg-border z-0" />
-          <div 
-            className="absolute top-12 left-0 h-1 bg-accent z-10 transition-all duration-500"
-            style={{ 
-              width: `${(completedStages.length / stages.length) * 100}%` 
-            }}
-          />
-          
           {/* Stage Nodes */}
-          <div className="relative z-20 flex justify-between">
+          <div className="relative flex justify-between">
+            {/* Connection Line - positioned at center of boxes, behind everything */}
+            <div className="absolute top-[48px] left-[10%] right-[10%] h-1 bg-border -z-10" />
+            <div 
+              className="absolute top-[48px] left-[10%] h-1 bg-accent -z-10 transition-all duration-500"
+              style={{ 
+                width: `${Math.max(0, (completedStages.length / stages.length) * 80)}%` 
+              }}
+            />
+            
             {stages.map((stage, index) => {
               const isCompleted = completedStages.includes(stage.id)
               const isActive = activeStage === stage.id
@@ -179,24 +179,36 @@ export function MCEMStateDiagram({ activeStage, completedStages = [] }: MCEMStat
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex flex-col items-center w-1/5"
+                  className="flex flex-col items-center w-1/5 relative"
                   onClick={() => setSelectedStage(isSelected ? null : stage.id)}
                 >
-                  {/* Node Circle */}
+                  {/* Node Box - with solid background to cover the line */}
                   <motion.div
                     className={`
-                      w-24 h-24 rounded-full flex items-center justify-center text-3xl
-                      border-4 transition-all duration-300 cursor-pointer
+                      w-24 h-24 rounded-lg flex items-center justify-center text-3xl
+                      border-4 transition-all duration-300 cursor-pointer relative bg-background
                       ${isSelected ? 'ring-4 ring-accent ring-offset-2 ring-offset-background' : ''}
-                      ${isCompleted ? 'bg-accent/20 border-accent' : 
-                        isActive ? 'bg-primary/20 border-primary animate-pulse' : 
-                        'bg-muted border-border'}
+                      ${isCompleted ? 'border-accent' : 
+                        isActive ? 'border-primary animate-pulse' : 
+                        'border-border'}
                     `}
-                    style={isCompleted ? { borderColor: stage.color, backgroundColor: `${stage.color}20` } : {}}
+                    style={{ 
+                      borderColor: isCompleted ? stage.color : undefined
+                    }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {stage.icon}
+                    {/* Inner colored background for completed/active states */}
+                    {(isCompleted || isActive) && (
+                      <div 
+                        className="absolute inset-0 rounded-md"
+                        style={{ 
+                          backgroundColor: isCompleted ? `${stage.color}30` : 
+                            isActive ? 'hsl(var(--primary) / 0.2)' : 'transparent'
+                        }}
+                      />
+                    )}
+                    <span className="relative z-10">{stage.icon}</span>
                   </motion.div>
                   
                   {/* Lead Role Badge */}
