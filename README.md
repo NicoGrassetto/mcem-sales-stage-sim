@@ -10,7 +10,7 @@
 [![Vite](https://img.shields.io/badge/Vite-7.0-646CFF?style=flat-square&logo=vite)](https://vite.dev)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-🌐 **Live Site:** [https://nicolograssetto.github.io/mcem-sales-stage-sim/](https://nicolograssetto.github.io/mcem-sales-stage-sim/)
+🌐 **Live Site:** [https://nicograssetto.github.io/mcem-sales-stage-sim/](https://nicograssetto.github.io/mcem-sales-stage-sim/)
 
 [📖 Documentation](docs/) · [🐛 Report Bug](issues)
 
@@ -25,6 +25,10 @@
 The **MCEM Sales Stage Simulator** is an interactive educational tool designed to help Microsoft sales professionals, partners, and anyone interested in enterprise sales methodologies understand the **Microsoft Customer Engagement Methodology (MCEM)**.
 
 Through pre-built real-world scenarios, users can explore how different sales situations map to the five MCEM stages and understand which roles are accountable at each phase.
+
+### 🎬 Demo
+
+https://github.com/NicoGrassetto/mcem-sales-stage-sim/raw/main/Recording%202026-01-21%20171831.mp4
 
 <div align="center">
 
