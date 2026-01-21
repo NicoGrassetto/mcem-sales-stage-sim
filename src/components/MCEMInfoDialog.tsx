@@ -307,23 +307,65 @@ export function MCEMInfoDialog() {
                   <div>
                     <h3 className="pixel-font text-sm text-secondary mb-3">👥 MICROSOFT SALES TEAM ROLES</h3>
                     <p className="space-font text-sm leading-relaxed text-foreground/90">
-                      Microsoft's sales organization operates with specialized roles that work together to drive customer success. These roles are organized into two executive categories:
+                      Microsoft's sales organization operates with specialized roles that work together to drive customer success.
                     </p>
-                    <div className="mt-3 grid grid-cols-2 gap-3">
-                      <div className="bg-muted p-3 border-l-4 border-primary">
-                        <p className="space-font text-xs font-semibold text-primary">Commercial Executives (CE)</p>
-                        <p className="space-font text-xs text-foreground/80 mt-1">Drive deal strategy, negotiations, and deal execution.</p>
-                      </div>
-                      <div className="bg-muted p-3 border-l-4 border-accent">
-                        <p className="space-font text-xs font-semibold text-accent">Solution Engineers (SE)</p>
-                        <p className="space-font text-xs text-foreground/80 mt-1">Drive the technical win to accelerate customer commitment.</p>
+                  </div>
+
+                  <div className="border-t-2 border-border pt-6">
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="text-3xl">💼</div>
+                      <div className="flex-1">
+                        <h4 className="space-font font-bold text-sm mb-2">Commercial Executive (CE)</h4>
+                        <div className="space-y-3">
+                          <p className="space-font text-sm leading-relaxed text-foreground/90">
+                            Drives deal strategy, negotiations, and deal execution. Owns the commercial relationship and ensures business outcomes align with Microsoft solutions.
+                          </p>
+                          <div className="bg-muted p-4 space-y-2">
+                            <p className="space-font text-xs font-semibold text-secondary">KEY RESPONSIBILITIES:</p>
+                            <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                              <li>• Lead deal strategy and commercial negotiations</li>
+                              <li>• Drive deal execution and closure</li>
+                              <li>• Manage commercial terms and pricing</li>
+                              <li>• Orchestrate internal resources for deal success</li>
+                            </ul>
+                          </div>
+                          <div className="bg-primary/10 p-3 border-l-4 border-primary">
+                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> All stages - primary driver of deal progression and commercial outcomes</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="border-t-2 border-border pt-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="text-3xl">💼</div>
+                      <div className="text-3xl">🔧</div>
+                      <div className="flex-1">
+                        <h4 className="space-font font-bold text-sm mb-2">Solution Engineer (SE)</h4>
+                        <div className="space-y-3">
+                          <p className="space-font text-sm leading-relaxed text-foreground/90">
+                            Drives the technical win to accelerate customer commitment. Owns the technical validation and ensures solutions meet customer requirements.
+                          </p>
+                          <div className="bg-muted p-4 space-y-2">
+                            <p className="space-font text-xs font-semibold text-secondary">KEY RESPONSIBILITIES:</p>
+                            <ul className="space-font text-xs leading-relaxed text-foreground/80 space-y-1 ml-4">
+                              <li>• Lead technical discovery and solution design</li>
+                              <li>• Conduct technical demonstrations and proof of concepts</li>
+                              <li>• Address technical objections and competitive differentiation</li>
+                              <li>• Validate technical fit and architecture alignment</li>
+                            </ul>
+                          </div>
+                          <div className="bg-accent/10 p-3 border-l-4 border-accent">
+                            <p className="space-font text-xs"><span className="font-semibold">MCEM Focus:</span> Map (technical discovery), Compete (technical win), Modernize (architecture validation)</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t-2 border-border pt-6">
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="text-3xl">🎯</div>
                       <div className="flex-1">
                         <h4 className="space-font font-bold text-sm mb-2">Account Executive (AE)</h4>
                         <div className="space-y-3">
